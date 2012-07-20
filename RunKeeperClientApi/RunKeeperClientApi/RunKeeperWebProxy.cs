@@ -11,21 +11,19 @@ namespace RunKeeperClientApi
 {
     internal class RunKeeperWebProxy
     {
-        public virtual Stream Post(string url, string contentType, string body)
+        public Stream Post(string url, string contentType, string body)
         {
             var requestObject = GetPostRequest(url, contentType, body);
 
             return GetResponse(requestObject);
         }
 
-        private static Stream GetResponse(HttpWebRequest requestObject)
+        protected virtual Stream GetResponse(HttpWebRequest requestObject)
         {
-            var response = requestObject.GetResponse();
-
-            return response.GetResponseStream();
+            return requestObject.GetResponse().GetResponseStream();
         }
 
-        private static HttpWebRequest GetPostRequest(string url, string contentType, string body)
+        protected virtual HttpWebRequest GetPostRequest(string url, string contentType, string body)
         {
             HttpWebRequest requestObject = (HttpWebRequest)HttpWebRequest.Create(url);
             requestObject.Method = "POST";
@@ -47,13 +45,21 @@ namespace RunKeeperClientApi
             var request = (HttpWebRequest)HttpWebRequest.Create(url);
 
             SetRequestHeaders(headers, request);
-       
-            var response = request.GetResponse();
-            
-            using (var streamReader = new StreamReader(response.GetResponseStream()))
+
+            return GetResponseBody(request);
+        }
+
+        private string GetResponseBody(HttpWebRequest request)
+        {
+            using (var streamReader = new StreamReader(GetResponseStream(request)))
             {
                 return streamReader.ReadToEnd();
             }
+        }
+
+        protected virtual Stream GetResponseStream(HttpWebRequest request)
+        {
+            return request.GetResponse().GetResponseStream();
         }
 
         private static void SetRequestHeaders(NameValueCollection headers, HttpWebRequest request)

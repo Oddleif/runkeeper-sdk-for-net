@@ -22,10 +22,18 @@ namespace RunKeeperClientApi
 
             if (headers == null)
                 headers = new NameValueCollection();
-            
-            headers.Add("Authorization", AccessToken);
+
+            SetAuthorizationHeader(headers);
 
             return WebProxyFactory.GetWebProxy().Get(url, headers);
+        }
+
+        private void SetAuthorizationHeader(NameValueCollection headers)
+        {
+            if (!String.IsNullOrEmpty(headers["Authorization"]))
+                headers.Set("Authorization", AccessToken);
+            else
+                headers.Add("Authorization", AccessToken);
         }
     }
 }

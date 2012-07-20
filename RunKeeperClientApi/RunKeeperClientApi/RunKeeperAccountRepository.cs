@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
 using System.IO;
+using System.Globalization;
 
 namespace RunKeeperClientApi
 {
@@ -55,9 +56,10 @@ namespace RunKeeperClientApi
         {           
             var body = GetRequestBody(clientAuthorizationCode, clientId, clientSecret, redirectUri);
 
-            var accessTokenResponse = WebProxyFactory.GetWebProxy().Post("https://runkeeper.com/apps/token", "application/x-www-form-urlencoded", body);
-
-            return GetAccessTokenFromResponse(accessTokenResponse);
+            using (var accessTokenResponse = WebProxyFactory.GetWebProxy().Post("https://runkeeper.com/apps/token", "application/x-www-form-urlencoded", body))
+            {
+                return GetAccessTokenFromResponse(accessTokenResponse);
+            }
         }
 
         private static string GetAccessTokenFromResponse(Stream accessTokenResponse)
@@ -72,7 +74,7 @@ namespace RunKeeperClientApi
 
         private static string GetRequestBody(string clientAuthorizationCode, string clientId, string clientSecret, string redirectUri)
         {
-            return String.Format("grant_type=authorization_code&code={0}&client_id={1}&client_secret={2}&redirect_uri={3}",
+            return String.Format(CultureInfo.InvariantCulture, "grant_type=authorization_code&code={0}&client_id={1}&client_secret={2}&redirect_uri={3}",
                 clientAuthorizationCode, clientId, clientSecret, redirectUri);            
         }
 

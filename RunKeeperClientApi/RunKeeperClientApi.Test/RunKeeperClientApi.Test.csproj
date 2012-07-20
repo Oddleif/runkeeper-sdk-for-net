@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunKeeperAccountTest.cs" />
+    <Compile Include="RunKeeperRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RunKeeperClientApi\RunKeeperClientApi.snk">
