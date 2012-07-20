@@ -30,11 +30,20 @@ namespace RunKeeperClientApi.Test
         public void GetWithoutHeadersTest()
         {
             var account = GetActiveRunKeeperAccount();
-
-            var response = account.Get("/fitnessActivities", null);
-
-            // TODO: Validate response content
-            Assert.IsTrue(!String.IsNullOrEmpty(response));
+            
+            try
+            {
+                var response = account.Get("/fitnessActivities", null);
+                Assert.Fail();
+            }
+            catch (AssertFailedException)
+            {
+                throw;
+            }
+            catch
+            {
+                Assert.IsTrue(true);
+            }
         }
 
         [TestMethod]
@@ -46,6 +55,10 @@ namespace RunKeeperClientApi.Test
 
                 var response = account.Get("fitnessActivities", null);
                 Assert.Fail();
+            }
+            catch (AssertFailedException)
+            {
+                throw;
             }
             catch
             {

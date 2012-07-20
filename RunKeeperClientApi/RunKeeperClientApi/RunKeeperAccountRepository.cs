@@ -14,12 +14,13 @@ namespace RunKeeperClientApi
     {
         /// <summary>
         /// Returns a new RunKeeperAccount object with a valid access token embedded.
+        /// This will request a new access token for the given clientAuthorizationCode.
         /// </summary>
         /// <param name="clientAuthorizationCode"></param>
         /// <param name="clientId"></param>
         /// <param name="clientSecret"></param>
         /// <param name="redirectUri"></param>
-        /// <returns></returns>
+        /// <returns>A RunKeeperAccount object with a valid access token.</returns>
         public static RunKeeperAccount GetRunKeeperAccount(string clientAuthorizationCode, string clientId, string clientSecret, string redirectUri)
         {
             Contract.Requires(!String.IsNullOrEmpty(clientAuthorizationCode));
@@ -49,7 +50,9 @@ namespace RunKeeperClientApi
         }
 
         private static string GetAccessToken(string clientAuthorizationCode, string clientId, string clientSecret, string redirectUri)
-        {           
+        {
+            Contract.Ensures(!String.IsNullOrEmpty(Contract.Result<string>()));
+
             var body = GetRequestBody(clientAuthorizationCode, clientId, clientSecret, redirectUri);
 
             using (var accessTokenResponse = WebProxyFactory.GetWebProxy().Post("https://runkeeper.com/apps/token", "application/x-www-form-urlencoded", body))

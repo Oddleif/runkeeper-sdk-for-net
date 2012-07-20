@@ -18,6 +18,9 @@ namespace RunKeeperClientApi
 
         internal RunKeeperAccount(string accessToken)
         {
+            Contract.Requires(!String.IsNullOrEmpty(accessToken));
+            Contract.Ensures(!String.IsNullOrEmpty(AccessToken));
+
             AccessToken = accessToken;
         }
 
@@ -33,9 +36,8 @@ namespace RunKeeperClientApi
         public string Get(string endpoint, NameValueCollection headers)
         {
             Contract.Requires(!String.IsNullOrEmpty(endpoint));
-
-            if (headers == null)
-                headers = new NameValueCollection();
+            Contract.Requires(headers != null);
+            Contract.Requires(headers.Count > 0);
 
             SetAuthorizationHeader(headers);
 
@@ -44,6 +46,8 @@ namespace RunKeeperClientApi
 
         private void SetAuthorizationHeader(NameValueCollection headers)
         {
+            Contract.Requires(headers != null);
+
             if (!String.IsNullOrEmpty(headers["Authorization"]))
                 headers.Set("Authorization", AccessToken);
             else

@@ -6,6 +6,10 @@ using System.Diagnostics.Contracts;
 
 namespace RunKeeperClientApi
 {
+    /// <summary>
+    /// Responsible for the communication with the 
+    /// runkeeper endpoints.
+    /// </summary>
     internal class RunKeeperWebProxy
     {
         public Stream Post(string url, string contentType, string body)

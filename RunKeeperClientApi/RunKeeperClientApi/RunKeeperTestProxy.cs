@@ -5,6 +5,10 @@ using System.Net;
 
 namespace RunKeeperClientApi
 {
+    /// <summary>
+    /// Test proxy to simulate runkeeper api invokations.
+    /// Also responsible for validating the actually http request objects.
+    /// </summary>
     internal class RunKeeperTestProxy : RunKeeperWebProxy
     {   
         protected override Stream GetResponse(System.Net.HttpWebRequest requestObject)

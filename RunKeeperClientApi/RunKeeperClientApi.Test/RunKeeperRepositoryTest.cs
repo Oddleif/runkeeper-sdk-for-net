@@ -29,20 +29,42 @@ namespace RunKeeperClientApi.Test
         {
             try
             {
-                var account = RunKeeperAccountRepository.GetRunKeeperAccount("token");
+                var account = RunKeeperAccountRepository.GetRunKeeperAccount(null);
 
                 Assert.Fail();
+            }
+            catch (AssertFailedException)
+            {
+                throw;
             }
             catch
             {
                 Assert.IsTrue(true);
             }
-        }
-
+        }       
+        
         [TestMethod]
         public void GetAccessTokenMissingParams1Test()
         {
             RunAccessTokenParamsTest("7ad4f4a2109a42729f22c660fe851d48", "clientId", "clientSecret", null);
+        }
+
+        [TestMethod]
+        public void GetAccessTokenMissingParams2Test()
+        {
+            RunAccessTokenParamsTest("clientAuthorizatioCode", "clientId", null, "http://localhost");
+        }
+
+        [TestMethod]
+        public void GetAccessTokenMissingParams3Test()
+        {
+            RunAccessTokenParamsTest("clientAuthorizatioCode", null, "clientSecret", "http://localhost");
+        }
+
+        [TestMethod]
+        public void GetAccessTokenMissingParams4Test()
+        {
+            RunAccessTokenParamsTest(null, "clientId", "clientSecret", "http://localhost");
         }
 
         private static void RunAccessTokenParamsTest(string clientAuthorizatioCode, string clientId, string clientSecret, string redirectUri)
@@ -53,29 +75,14 @@ namespace RunKeeperClientApi.Test
 
                 Assert.Fail();
             }
+            catch (AssertFailedException)
+            {
+                throw;
+            }
             catch
             {
                 Assert.IsTrue(true);
             }
         }
-
-        [TestMethod]
-        public void GetAccessTokenMissingParams2Test()
-        {
-            RunAccessTokenParamsTest("clientAuthorizatioCode", "clientId", null, null);
-        }
-
-        [TestMethod]
-        public void GetAccessTokenMissingParams3Test()
-        {
-            RunAccessTokenParamsTest("clientAuthorizatioCode", null, null, null);
-        }
-
-        [TestMethod]
-        public void GetAccessTokenMissingParams4Test()
-        {
-            RunAccessTokenParamsTest(null, null, null, null);
-        }
-
     }
 }
