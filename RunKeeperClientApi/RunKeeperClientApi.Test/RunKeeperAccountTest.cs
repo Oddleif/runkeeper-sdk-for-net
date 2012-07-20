@@ -21,9 +21,9 @@ namespace RunKeeperClientApi.Test
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
 
             var response = account.Get("/fitnessActivities", headers);
-
-            // TODO: Validate response content
-            Assert.IsTrue(!String.IsNullOrEmpty(response));            
+            
+            Assert.IsTrue(!String.IsNullOrEmpty(response));
+            Assert.AreEqual("{\"items\": [{\"duration\":2677.43,\"total_distance\":7581.0285921453,\"start_time\":\"Fri, 20 Jul 2012 09:52:29\",\"type\":\"Running\",\"uri\":\"/fitnessActivities/103227434\"},{\"duration\":7029,\"total_distance\":46387.3439279308,\"start_time\":\"Thu, 19 Jul 2012 10:29:09\",\"type\":\"Cycling\",\"uri\":\"/fitnessActivities/103032067\"}],\"next\": \"/fitnessActivities?page=1&pageSize=2&noEarlierThan=1970-01-01&noLaterThan=2012-07-22&modifiedNoEarlierThan=1970-01-01&modifiedNoLaterThan=2012-07-22\",\"size\": 83,}", response);
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace RunKeeperClientApi.Test
         {
             Contract.Ensures(Contract.Result<RunKeeperAccount>() != null);
 
-            return RunKeeperAccountRepository.GetRunKeeperAccount("Bearer 2ec59fa926d044bea8dc256174619625");
+            return RunKeeperAccountsRepository.GetRunKeeperAccount("Bearer 2ec59fa926d044bea8dc256174619625");
         }
     }
 }

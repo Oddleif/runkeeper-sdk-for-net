@@ -9,7 +9,7 @@ namespace RunKeeperClientApi.Test
         [TestMethod]
         public void GetRunKeeperAccountTest()
         {
-            var account = RunKeeperAccountRepository.GetRunKeeperAccount("46f07c8ffc1c4ffc935b36ccd8699905", "2083a749bab14979a4fb09ec457d80ae", "55b71988d86b4bbb90166a896499b7e0", "http://localhost");
+            var account = RunKeeperAccountsRepository.GetRunKeeperAccount("46f07c8ffc1c4ffc935b36ccd8699905", "2083a749bab14979a4fb09ec457d80ae", "55b71988d86b4bbb90166a896499b7e0", "http://localhost");
 
             Assert.IsNotNull(account);
             Assert.IsTrue(!String.IsNullOrEmpty(account.AccessToken));
@@ -19,7 +19,7 @@ namespace RunKeeperClientApi.Test
         public void GetRunKeeperAccountWithExistingAccessTokenTest()
         {
             var accessToken = "access token";
-            var account = RunKeeperAccountRepository.GetRunKeeperAccount(accessToken);
+            var account = RunKeeperAccountsRepository.GetRunKeeperAccount(accessToken);
 
             Assert.AreEqual(accessToken, account.AccessToken);
         }
@@ -29,7 +29,7 @@ namespace RunKeeperClientApi.Test
         {
             try
             {
-                var account = RunKeeperAccountRepository.GetRunKeeperAccount(null);
+                var account = RunKeeperAccountsRepository.GetRunKeeperAccount(null);
 
                 Assert.Fail();
             }
@@ -71,7 +71,7 @@ namespace RunKeeperClientApi.Test
         {
             try
             {
-                var token = RunKeeperAccountRepository.GetRunKeeperAccount(clientAuthorizatioCode, clientId, clientSecret, redirectUri);
+                var token = RunKeeperAccountsRepository.GetRunKeeperAccount(clientAuthorizatioCode, clientId, clientSecret, redirectUri);
 
                 Assert.Fail();
             }
