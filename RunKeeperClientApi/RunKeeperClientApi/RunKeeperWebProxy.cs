@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net;
 using System.Collections.Specialized;
 using System.IO;
@@ -25,24 +22,37 @@ namespace RunKeeperClientApi
 
         protected virtual HttpWebRequest GetPostRequest(string url, string contentType, string body)
         {
-            HttpWebRequest requestObject = (HttpWebRequest)HttpWebRequest.Create(url);
-            requestObject.Method = "POST";
-            requestObject.ContentType = contentType;
+            var requestObject = GetPostRequestObject(url, contentType);
 
-            using (var streamWriter = new StreamWriter(requestObject.GetRequestStream()))
-            {
-                streamWriter.Write(body);
-            }
+            WriteBodyToRequestObject(body, requestObject);
 
             return requestObject;
         }
 
-        public virtual string Get(Uri url, NameValueCollection headers)
+        private static HttpWebRequest GetPostRequestObject(string url, string contentType)
         {
-            Contract.Requires(url != null);
+            var requestObject = (HttpWebRequest)HttpWebRequest.Create(url);
+            requestObject.Method = "POST";
+            requestObject.ContentType = contentType;
+
+            return requestObject;
+        }
+
+        private static void WriteBodyToRequestObject(string body, HttpWebRequest requestObject)
+        {
+            using (var streamWriter = new StreamWriter(requestObject.GetRequestStream()))
+            {
+                streamWriter.Write(body);
+            }
+        }
+
+        public virtual string Get(string endpoint, NameValueCollection headers)
+        {
+            Contract.Requires(!String.IsNullOrEmpty(endpoint));
+            Contract.Requires(endpoint.StartsWith("/"));
             Contract.Requires(headers != null);
 
-            var request = (HttpWebRequest)HttpWebRequest.Create(url);
+            var request = (HttpWebRequest)HttpWebRequest.Create("https://api.runkeeper.com" + endpoint);
 
             SetRequestHeaders(headers, request);
 

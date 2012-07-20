@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
@@ -23,7 +20,7 @@ namespace RunKeeperClientApi.Test
             var headers = new NameValueCollection();
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
 
-            var response = account.Get(new Uri("https://api.runkeeper.com/fitnessActivities"), headers);
+            var response = account.Get("/fitnessActivities", headers);
 
             // TODO: Validate response content
             Assert.IsTrue(!String.IsNullOrEmpty(response));            
@@ -34,10 +31,26 @@ namespace RunKeeperClientApi.Test
         {
             var account = GetActiveRunKeeperAccount();
 
-            var response = account.Get(new Uri("https://api.runkeeper.com/fitnessActivities"), null);
+            var response = account.Get("/fitnessActivities", null);
 
             // TODO: Validate response content
             Assert.IsTrue(!String.IsNullOrEmpty(response));
+        }
+
+        [TestMethod]
+        public void GetUsingInvalidEndpointFormatTest()
+        {
+            try
+            {
+                var account = GetActiveRunKeeperAccount();
+
+                var response = account.Get("fitnessActivities", null);
+                Assert.Fail();
+            }
+            catch
+            {
+                Assert.IsTrue(true);
+            }
         }
 
         [TestMethod]
@@ -49,7 +62,7 @@ namespace RunKeeperClientApi.Test
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
             headers.Add("Authorization", "invalid");
 
-            var response = account.Get(new Uri("https://api.runkeeper.com/fitnessActivities"), headers);
+            var response = account.Get("/fitnessActivities", headers);
 
             Assert.IsTrue(!headers["Authorization"].Contains("invalid"));
         }
