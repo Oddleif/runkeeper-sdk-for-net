@@ -11,8 +11,7 @@ namespace RunKeeperClientApi
     public class RunKeeperAccount
     {
         /// <summary>
-        /// The access token for the current
-        /// account.
+        /// The access token for the current account.
         /// </summary>
         public string AccessToken { get; private set; }
 
