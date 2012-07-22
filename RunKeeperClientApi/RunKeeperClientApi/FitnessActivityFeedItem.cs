@@ -71,6 +71,40 @@ namespace RunKeeperClientApi
         /// The address to where you can get the activity details.
         /// </summary>
         [DataMember(Name = "uri")]
-        public Uri ActivityUri { get; set; }        
+        public Uri ActivityUri { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is FitnessActivityFeedItem == false)
+                return false;
+
+            var compareTo = (FitnessActivityFeedItem)obj;
+
+            if (this.ActivityType != compareTo.ActivityType)
+                return false;
+            if (this.ActivityUri != compareTo.ActivityUri)
+                return false;
+            if (this.Distance != compareTo.Distance)
+                return false;
+            if (DurationInSeconds != compareTo.DurationInSeconds)
+                return false;
+            if (this.StartTime != compareTo.StartTime)
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// Not changed according to equals. Still consider object instance different - even 
+        /// though their content are the same.
+        /// </remarks>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

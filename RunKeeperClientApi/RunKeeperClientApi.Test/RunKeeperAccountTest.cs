@@ -10,7 +10,7 @@ namespace RunKeeperClientApi.Test
     /// {"token_type":"Bearer","access_token":"2ec59fa926d044bea8dc256174619625"}
     /// </summary>
     [TestClass]
-    public class RunKeeperClientTest
+    public class RunKeeperAccountTest
     {
         [TestMethod]
         public void GetRecentActivitiesTest()
@@ -120,7 +120,7 @@ namespace RunKeeperClientApi.Test
             Assert.AreEqual(new Uri("/fitnessActivities/103032067", UriKind.Relative), cyclingActivity.ActivityUri);
         }
 
-        private static RunKeeperAccount GetActiveRunKeeperAccount()
+        internal static RunKeeperAccount GetActiveRunKeeperAccount()
         {
             Contract.Ensures(Contract.Result<RunKeeperAccount>() != null);
 

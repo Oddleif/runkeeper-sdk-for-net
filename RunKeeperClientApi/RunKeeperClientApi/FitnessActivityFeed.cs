@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Diagnostics.Contracts;
 
 namespace RunKeeperClientApi
 {
@@ -58,6 +59,56 @@ namespace RunKeeperClientApi
             {
                 return PreviousPageUri != null;
             }
+        }
+
+        public FitnessActivityFeed GetNextPage()
+        {
+            Contract.Requires(HasNextPage);
+
+            return RunKeeperAccount.GetFitnessActivityFeed(NextPageUri);
+        }
+
+        public FitnessActivityFeed GetPreviousPage()
+        {
+            Contract.Requires(HasPreviousPage);
+
+            return RunKeeperAccount.GetFitnessActivityFeed(PreviousPageUri);
+        }
+
+        internal RunKeeperAccount RunKeeperAccount { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is FitnessActivityFeed == false)
+                return false;
+
+            var compareTo = (FitnessActivityFeed)obj;
+
+            if (NextPageUri != compareTo.NextPageUri)
+                return false;
+            if (PreviousPageUri != compareTo.PreviousPageUri)
+                return false;
+            if (RunKeeperAccount.AccessToken != compareTo.RunKeeperAccount.AccessToken)
+                return false;
+            if (TotalActivityCount != compareTo.TotalActivityCount)
+                return false;
+            if (!Items.SequenceEqual(compareTo.Items))
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// Not changed implementation according to Equals implementation.
+        /// Hence, object instances are not consideres the same - though their content equals.
+        /// </remarks>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

@@ -59,15 +59,38 @@ namespace RunKeeperClientApi
         /// <returns>The first page of the FitnessActivityFeed.</returns>
         public FitnessActivityFeed GetFitnessActivityFeed()
         {
+            return GetFitnessActivityFeed(new Uri("/fitnessActivities", UriKind.Relative));
+        }
+
+        internal FitnessActivityFeed GetFitnessActivityFeed(Uri feedUri)
+        {
+            Contract.Requires(feedUri != null);
+
+            var responseStream = GetActivityFeedResponseStream(feedUri);
+
+            return GetActivityFeedFromStream(responseStream);
+        }
+
+        private FitnessActivityFeed GetActivityFeedFromStream(Stream responseStream)
+        {
+            Contract.Ensures(Contract.Result<FitnessActivityFeed>().RunKeeperAccount == this);
+
+            var serializer = new DataContractJsonSerializer(typeof(FitnessActivityFeed));
+
+            var feed = (FitnessActivityFeed)serializer.ReadObject(responseStream);
+
+            feed.RunKeeperAccount = this;
+            
+            return feed;
+        }
+
+        private Stream GetActivityFeedResponseStream(Uri feedUri)
+        {
             var headers = new NameValueCollection();
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
             SetAuthorizationHeader(headers);
 
-            var responseStream = WebProxyFactory.GetWebProxy().Get("/fitnessActivities", headers);
-
-            var serializer = new DataContractJsonSerializer(typeof(FitnessActivityFeed));
-
-            return (FitnessActivityFeed)serializer.ReadObject(responseStream);
+            return WebProxyFactory.GetWebProxy().Get(feedUri.ToString(), headers);
         }
 
         private void SetAuthorizationHeader(NameValueCollection headers)
