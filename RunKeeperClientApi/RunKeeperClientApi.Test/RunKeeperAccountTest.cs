@@ -90,39 +90,7 @@ namespace RunKeeperClientApi.Test
             ValidateFeed(fitnessActivityFeed);
 
             ValidateFeedItems(fitnessActivityFeed);
-        }
-
-        [TestMethod]
-        public void FitnessActivityFeedHasNextPageTest()
-        {
-            var feed = new FitnessActivityFeed() { NextPageUri = new Uri("/NextPage", UriKind.Relative) };
-
-            Assert.IsTrue(feed.HasNextPage);
-        }
-
-        [TestMethod]
-        public void FitnessActivityFeedDoesNotHaveNextPageTest()
-        {
-            var feed = new FitnessActivityFeed();
-
-            Assert.IsFalse(feed.HasNextPage);
-        }
-
-        [TestMethod]
-        public void FitnessActivityFeedHasPreviousPageTest()
-        {
-            var feed = new FitnessActivityFeed() { PreviousPageUri = new Uri("/PreviousPage", UriKind.Relative) };
-
-            Assert.IsTrue(feed.HasPreviousPage);
-        }
-
-        [TestMethod]
-        public void FitnessActivityFeedDoesNotHavePreviousPageTest()
-        {
-            var feed = new FitnessActivityFeed();
-
-            Assert.IsFalse(feed.HasPreviousPage);
-        }
+        }               
 
         private static void ValidateFeed(FitnessActivityFeed fitnessActivityFeed)
         {

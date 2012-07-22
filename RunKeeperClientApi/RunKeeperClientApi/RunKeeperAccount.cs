@@ -54,8 +54,7 @@ namespace RunKeeperClientApi
         }
 
         /// <summary>
-        /// Retreives a the first page of the finess activity feed for the current
-        /// account.
+        /// Retreives a the first page of the finess activity feed for the account.
         /// </summary>
         /// <returns>The first page of the FitnessActivityFeed.</returns>
         public FitnessActivityFeed GetFitnessActivityFeed()
