@@ -5,15 +5,11 @@ using System.Collections.Specialized;
 
 namespace RunKeeperClientApi.Test
 {
-    /// <summary>    
-    /// https://runkeeper.com/apps/authorize?client_id=2083a749bab14979a4fb09ec457d80ae&redirect_uri=http://localhost&response_type=code
-    /// {"token_type":"Bearer","access_token":"2ec59fa926d044bea8dc256174619625"}
-    /// </summary>
     [TestClass]
     public class FitnessActivityFeedTest
     {
         [TestMethod]
-        public void FitnessActivityFeedHasNextPageTest()
+        public void HasNextPageTest()
         {
             var feed = new FitnessActivityFeed() { NextPageUri = new Uri("/NextPage", UriKind.Relative) };
 
@@ -21,7 +17,7 @@ namespace RunKeeperClientApi.Test
         }
 
         [TestMethod]
-        public void FitnessActivityFeedDoesNotHaveNextPageTest()
+        public void DoesNotHaveNextPageTest()
         {
             var feed = new FitnessActivityFeed();
 
@@ -29,7 +25,7 @@ namespace RunKeeperClientApi.Test
         }
 
         [TestMethod]
-        public void FitnessActivityFeedHasPreviousPageTest()
+        public void HasPreviousPageTest()
         {
             var feed = new FitnessActivityFeed() { PreviousPageUri = new Uri("/PreviousPage", UriKind.Relative) };
 
@@ -37,7 +33,7 @@ namespace RunKeeperClientApi.Test
         }
 
         [TestMethod]
-        public void FitnessActivityFeedDoesNotHavePreviousPageTest()
+        public void DoesNotHavePreviousPageTest()
         {
             var feed = new FitnessActivityFeed();
 
