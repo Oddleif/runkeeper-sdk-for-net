@@ -33,7 +33,7 @@ namespace RunKeeperClientApi
             {
                 var split = DurationInSeconds.ToString(CultureInfo.InvariantCulture).Split('.');
                 
-                var seconds = Convert.ToInt32(split[0]);
+                var seconds = Convert.ToInt32(split[0], CultureInfo.CurrentCulture);
                 var ms = split.Length == 1 ? 0: GetMsFromString(split[1]);
 
                 return new TimeSpan(0, 0, 0, seconds, ms);
@@ -46,7 +46,7 @@ namespace RunKeeperClientApi
             // 1 second == 1000ms, hence we get up to 3 digits.
             Contract.Requires(msString.Length <= 3);
 
-            return Convert.ToInt32(msString);
+            return Convert.ToInt32(msString, CultureInfo.CurrentCulture);
         }
 
         /// <summary>

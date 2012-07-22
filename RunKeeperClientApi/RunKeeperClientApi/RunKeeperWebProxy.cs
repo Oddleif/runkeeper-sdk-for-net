@@ -53,7 +53,7 @@ namespace RunKeeperClientApi
         public virtual Stream Get(string endpoint, NameValueCollection headers)
         {
             Contract.Requires(!String.IsNullOrEmpty(endpoint));
-            Contract.Requires(endpoint.StartsWith("/"));
+            Contract.Requires(endpoint.StartsWith("/", StringComparison.OrdinalIgnoreCase));
             Contract.Requires(headers != null);
 
             var request = (HttpWebRequest)HttpWebRequest.Create("https://api.runkeeper.com" + endpoint);

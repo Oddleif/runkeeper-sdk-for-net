@@ -39,6 +39,6 @@ namespace RunKeeperClientApi
         /// multiple pages it will only contain the items for the current page.
         /// </summary>
         [DataMember(Name="items")]
-        public IEnumerable<FitnessActivityFeedItem> Items { get; set; }
+        public IList<FitnessActivityFeedItem> Items { get; set; }
     }
 }
