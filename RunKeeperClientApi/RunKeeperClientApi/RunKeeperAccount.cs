@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 namespace RunKeeperClientApi
 {
@@ -45,7 +47,23 @@ namespace RunKeeperClientApi
 
             SetAuthorizationHeader(headers);
 
-            return WebProxyFactory.GetWebProxy().Get(endpoint, headers);
+            using (var result = new StreamReader(WebProxyFactory.GetWebProxy().Get(endpoint, headers)))
+            {
+                return result.ReadToEnd();
+            }
+        }
+
+        public FitnessActivityFeed GetFitnessActivityFeed()
+        {
+            var headers = new NameValueCollection();
+            headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
+            SetAuthorizationHeader(headers);
+
+            var responseStream = WebProxyFactory.GetWebProxy().Get("/fitnessActivities", headers);
+
+            var serializer = new DataContractJsonSerializer(typeof(FitnessActivityFeed));
+
+            return (FitnessActivityFeed)serializer.ReadObject(responseStream);
         }
 
         private void SetAuthorizationHeader(NameValueCollection headers)
