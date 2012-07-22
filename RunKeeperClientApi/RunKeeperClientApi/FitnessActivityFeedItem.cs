@@ -8,6 +8,11 @@ using System.Diagnostics.Contracts;
 
 namespace RunKeeperClientApi
 {
+    /// <summary>
+    /// Contains high level details about the fitness activity.
+    /// It also contains the information required to get the
+    /// activity details.
+    /// </summary>
     [DataContract]
     public class FitnessActivityFeedItem
     {
@@ -50,13 +55,22 @@ namespace RunKeeperClientApi
         [DataMember(Name = "total_distance")]
         public double Distance { get; set; }
 
+        /// <summary>
+        /// The type of activity. Running, Cycling, Walking, etc..
+        /// </summary>
         [DataMember(Name = "type")]
         public string ActivityType { get; set; }
 
+        /// <summary>
+        /// Time when activity started.
+        /// </summary>
         [DataMember(Name = "start_time")]
         public string StartTime { get; set; }
         
+        /// <summary>
+        /// The address to where you can get the activity details.
+        /// </summary>
         [DataMember(Name = "uri")]
-        public string Endpoint { get; set; }
+        public string Endpoint { get; set; }        
     }
 }

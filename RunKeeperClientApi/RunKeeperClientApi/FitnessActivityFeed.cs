@@ -17,27 +17,28 @@ namespace RunKeeperClientApi
     public class FitnessActivityFeed
     {
         /// <summary>
-        /// Endpoint address to the previous set of 
-        /// activities in the feed.
+        /// Endpoint address to the previous set of activities in the feed.
         /// </summary>
         [DataMember(Name="previous")]
         public string Previous { get; set; }
 
         /// <summary>
-        /// Endpoint address to the previous set of 
-        /// activities in the feed.
+        /// Endpoint address to the previous set of activities in the feed.
         /// </summary>
         [DataMember(Name="next")]
         public string Next { get; set; }
 
         /// <summary>
-        /// Contains the total number of activities in the
-        /// feed.
+        /// Contains the total number of activities in the feed.
         /// </summary>
         [DataMember(Name="size")]
         public int TotalActivityCount { get; set; }
 
+        /// <summary>
+        /// The set of fitness activities in the feed. If the feed contains
+        /// multiple pages it will only contain the items for the current page.
+        /// </summary>
         [DataMember(Name="items")]
-        public List<FitnessActivityFeedItem> Items { get; set; }
+        public IEnumerable<FitnessActivityFeedItem> Items { get; set; }
     }
 }
