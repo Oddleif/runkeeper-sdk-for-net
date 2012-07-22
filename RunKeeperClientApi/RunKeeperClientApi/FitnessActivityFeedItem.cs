@@ -71,6 +71,6 @@ namespace RunKeeperClientApi
         /// The address to where you can get the activity details.
         /// </summary>
         [DataMember(Name = "uri")]
-        public string Endpoint { get; set; }        
+        public Uri ActivityUri { get; set; }        
     }
 }

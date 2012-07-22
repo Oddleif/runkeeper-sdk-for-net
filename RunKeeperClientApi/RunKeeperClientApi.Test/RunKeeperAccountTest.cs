@@ -92,11 +92,43 @@ namespace RunKeeperClientApi.Test
             ValidateFeedItems(fitnessActivityFeed);
         }
 
+        [TestMethod]
+        public void FitnessActivityFeedHasNextPageTest()
+        {
+            var feed = new FitnessActivityFeed() { NextPageUri = new Uri("/NextPage", UriKind.Relative) };
+
+            Assert.IsTrue(feed.HasNextPage);
+        }
+
+        [TestMethod]
+        public void FitnessActivityFeedDoesNotHaveNextPageTest()
+        {
+            var feed = new FitnessActivityFeed();
+
+            Assert.IsFalse(feed.HasNextPage);
+        }
+
+        [TestMethod]
+        public void FitnessActivityFeedHasPreviousPageTest()
+        {
+            var feed = new FitnessActivityFeed() { PreviousPageUri = new Uri("/PreviousPage", UriKind.Relative) };
+
+            Assert.IsTrue(feed.HasPreviousPage);
+        }
+
+        [TestMethod]
+        public void FitnessActivityFeedDoesNotHavePreviousPageTest()
+        {
+            var feed = new FitnessActivityFeed();
+
+            Assert.IsFalse(feed.HasPreviousPage);
+        }
+
         private static void ValidateFeed(FitnessActivityFeed fitnessActivityFeed)
         {
             Assert.IsNotNull(fitnessActivityFeed);
-            Assert.IsNull(fitnessActivityFeed.Previous);
-            Assert.AreEqual("/fitnessActivities?page=1&pageSize=2&noEarlierThan=1970-01-01&noLaterThan=2012-07-22&modifiedNoEarlierThan=1970-01-01&modifiedNoLaterThan=2012-07-22", fitnessActivityFeed.Next);
+            Assert.IsNull(fitnessActivityFeed.PreviousPageUri);
+            Assert.AreEqual(new Uri("/fitnessActivities?page=1&pageSize=2&noEarlierThan=1970-01-01&noLaterThan=2012-07-22&modifiedNoEarlierThan=1970-01-01&modifiedNoLaterThan=2012-07-22", UriKind.Relative), fitnessActivityFeed.NextPageUri);
             Assert.AreEqual(83, fitnessActivityFeed.TotalActivityCount);
             Assert.AreEqual(2, fitnessActivityFeed.Items.Count);
         }
@@ -109,7 +141,7 @@ namespace RunKeeperClientApi.Test
             Assert.AreEqual(new TimeSpan(0, 0, 0, 2677, 43), runningActivity.Duration);
             Assert.AreEqual(2677.43, runningActivity.DurationInSeconds);
             Assert.AreEqual("Fri, 20 Jul 2012 09:52:29", runningActivity.StartTime);
-            Assert.AreEqual("/fitnessActivities/103227434", runningActivity.Endpoint);
+            Assert.AreEqual(new Uri("/fitnessActivities/103227434", UriKind.Relative), runningActivity.ActivityUri);
 
             var cyclingActivity = fitnessActivityFeed.Items[1];
             Assert.AreEqual("Cycling", cyclingActivity.ActivityType);
@@ -117,7 +149,7 @@ namespace RunKeeperClientApi.Test
             Assert.AreEqual(new TimeSpan(0, 0, 0, 7029, 0), cyclingActivity.Duration);
             Assert.AreEqual(7029, cyclingActivity.DurationInSeconds);
             Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", cyclingActivity.StartTime);
-            Assert.AreEqual("/fitnessActivities/103032067", cyclingActivity.Endpoint);
+            Assert.AreEqual(new Uri("/fitnessActivities/103032067", UriKind.Relative), cyclingActivity.ActivityUri);
         }
 
         private static RunKeeperAccount GetActiveRunKeeperAccount()

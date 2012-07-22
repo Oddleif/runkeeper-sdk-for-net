@@ -10,7 +10,7 @@ namespace RunKeeperClientApi
     /// A collection of fitness activities. The result source 
     /// is paged, meaning each FitnessActivityFeed object will 
     /// only contain page of activities. To get them all
-    /// you will need to continue loading as long as there is a <see cref="Next"/>
+    /// you will need to continue loading as long as there is a <see cref="NextPageUri"/>
     /// endpoitn available.
     /// </summary>
     [DataContract]
@@ -20,13 +20,13 @@ namespace RunKeeperClientApi
         /// Endpoint address to the previous set of activities in the feed.
         /// </summary>
         [DataMember(Name="previous")]
-        public string Previous { get; set; }
+        public Uri PreviousPageUri { get; set; }
 
         /// <summary>
         /// Endpoint address to the previous set of activities in the feed.
         /// </summary>
         [DataMember(Name="next")]
-        public string Next { get; set; }
+        public Uri NextPageUri { get; set; }
 
         /// <summary>
         /// Contains the total number of activities in the feed.
@@ -40,5 +40,24 @@ namespace RunKeeperClientApi
         /// </summary>
         [DataMember(Name="items")]
         public IList<FitnessActivityFeedItem> Items { get; set; }
+
+        /// <summary>
+        /// Indicates if the current feed has more pages or not.
+        /// </summary>
+        public bool HasNextPage
+        {
+            get
+            {
+                return NextPageUri != null;
+            }
+        }
+
+        public bool HasPreviousPage
+        {
+            get
+            {
+                return PreviousPageUri != null;
+            }
+        }
     }
 }
