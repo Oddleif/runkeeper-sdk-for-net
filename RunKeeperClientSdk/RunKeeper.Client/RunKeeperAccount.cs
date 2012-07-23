@@ -60,7 +60,7 @@ namespace RunKeeper.Client
         public FitnessActivityFeed GetFitnessActivityFeed()
         {
             return GetFitnessActivityFeed(new Uri("/fitnessActivities", UriKind.Relative));
-        }
+        }        
 
         internal FitnessActivityFeed GetFitnessActivityFeed(Uri feedUri)
         {
@@ -120,6 +120,23 @@ namespace RunKeeper.Client
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public FitnessActivity GetFitnessActivity(Uri activityUri)
+        {
+            Contract.Requires(!String.IsNullOrEmpty(activityUri.ToString()));
+
+            var headers = new NameValueCollection();
+            headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivity+json");
+            SetAuthorizationHeader(headers);
+
+            using (var reponse = WebProxyFactory.GetWebProxy().Get(activityUri.ToString(), headers))
+            {
+                var serializer = new DataContractJsonSerializer(typeof(FitnessActivity));
+
+                return (FitnessActivity)serializer.ReadObject(reponse);
+
+            }
         }
     }
 }

@@ -122,8 +122,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FitnessActivity.cs" />
     <Compile Include="FitnessActivityFeed.cs" />
     <Compile Include="FitnessActivityFeedItem.cs" />
+    <Compile Include="HeartRate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunKeeperAccountsRepository.cs" />
     <Compile Include="RunKeeperAccount.cs" />

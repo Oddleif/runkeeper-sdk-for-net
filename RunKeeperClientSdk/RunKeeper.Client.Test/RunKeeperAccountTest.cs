@@ -166,7 +166,17 @@ namespace RunKeeper.Client.Test
         {
             Contract.Ensures(Contract.Result<RunKeeperAccount>() != null);
 
-            return RunKeeperAccountsRepository.GetRunKeeperAccount("Bearer 2ec59fa926d044bea8dc256174619625");
+            return RunKeeperAccountsRepository.GetRunKeeperAccount("Bearer e37ea03007e3459eb2bcff30e598c9b8");
+        }
+
+        [TestMethod]
+        public void GetFitnessActivityTest()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/103032067", UriKind.Relative));
+
+            Assert.Inconclusive("Assert not completed.");
         }
     }
 }
