@@ -51,6 +51,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FitnessActivityFeedItemTest.cs" />
+    <Compile Include="FitnessActivityFeedTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunKeeperAccountTest.cs" />
     <Compile Include="RunKeeperRepositoryTest.cs" />
