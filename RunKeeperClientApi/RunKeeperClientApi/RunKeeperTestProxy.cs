@@ -45,5 +45,10 @@ namespace RunKeeperClientApi
 
             return base.GetPostRequest(url, contentType, body);
         }
+
+        protected override Stream GetRequestStream(HttpWebRequest requestObject)
+        {
+            return new MemoryStream();
+        }
     }
 }
