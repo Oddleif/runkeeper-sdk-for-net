@@ -50,25 +50,17 @@ namespace RunKeeperClientApi
             }
         }
 
-        public virtual string Get(string endpoint, NameValueCollection headers)
+        public virtual Stream Get(string endpoint, NameValueCollection headers)
         {
             Contract.Requires(!String.IsNullOrEmpty(endpoint));
-            Contract.Requires(endpoint.StartsWith("/"));
+            Contract.Requires(endpoint.StartsWith("/", StringComparison.OrdinalIgnoreCase));
             Contract.Requires(headers != null);
 
             var request = (HttpWebRequest)HttpWebRequest.Create("https://api.runkeeper.com" + endpoint);
 
             SetRequestHeaders(headers, request);
 
-            return GetResponseBody(request);
-        }
-
-        private string GetResponseBody(HttpWebRequest request)
-        {
-            using (var streamReader = new StreamReader(GetResponseStream(request)))
-            {
-                return streamReader.ReadToEnd();
-            }
+            return GetResponse(request);
         }
 
         protected virtual Stream GetResponseStream(HttpWebRequest request)

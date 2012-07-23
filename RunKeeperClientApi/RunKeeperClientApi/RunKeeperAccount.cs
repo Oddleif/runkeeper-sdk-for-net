@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 namespace RunKeeperClientApi
 {
@@ -45,7 +47,53 @@ namespace RunKeeperClientApi
 
             SetAuthorizationHeader(headers);
 
-            return WebProxyFactory.GetWebProxy().Get(endpoint, headers);
+            using (var result = new StreamReader(WebProxyFactory.GetWebProxy().Get(endpoint, headers)))
+            {
+                return result.ReadToEnd();
+            }
+        }
+
+        /// <summary>
+        /// Retreives a the first page of the finess activity feed for the account.
+        /// </summary>
+        /// <returns>The first page of the FitnessActivityFeed.</returns>
+        public FitnessActivityFeed GetFitnessActivityFeed()
+        {
+            return GetFitnessActivityFeed(new Uri("/fitnessActivities", UriKind.Relative));
+        }
+
+        internal FitnessActivityFeed GetFitnessActivityFeed(Uri feedUri)
+        {
+            Contract.Requires(feedUri != null);
+            Contract.Requires(!String.IsNullOrEmpty(feedUri.ToString()));
+
+            var responseStream = GetActivityFeedResponseStream(feedUri);
+
+            return GetActivityFeedFromStream(responseStream);
+        }
+
+        private FitnessActivityFeed GetActivityFeedFromStream(Stream responseStream)
+        {
+            Contract.Ensures(Contract.Result<FitnessActivityFeed>().RunKeeperAccount == this);
+
+            var serializer = new DataContractJsonSerializer(typeof(FitnessActivityFeed));
+
+            var feed = (FitnessActivityFeed)serializer.ReadObject(responseStream);
+
+            feed.RunKeeperAccount = this;
+            
+            return feed;
+        }
+
+        private Stream GetActivityFeedResponseStream(Uri feedUri)
+        {
+            
+
+            var headers = new NameValueCollection();
+            headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
+            SetAuthorizationHeader(headers);
+
+            return WebProxyFactory.GetWebProxy().Get(feedUri.ToString(), headers);
         }
 
         private void SetAuthorizationHeader(NameValueCollection headers)
@@ -56,6 +104,24 @@ namespace RunKeeperClientApi
                 headers.Set("Authorization", AccessToken);
             else
                 headers.Add("Authorization", AccessToken);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is RunKeeperAccount == false)
+                return false;
+
+            var compareTo = (RunKeeperAccount)obj;
+
+            if (AccessToken != compareTo.AccessToken)
+                return false;           
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }
