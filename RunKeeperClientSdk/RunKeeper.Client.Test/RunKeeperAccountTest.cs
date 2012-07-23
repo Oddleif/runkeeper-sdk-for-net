@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
 
-namespace RunKeeperClientApi.Test
+namespace RunKeeper.Client.Test
 {
     /// <summary>    
     /// https://runkeeper.com/apps/authorize?client_id=2083a749bab14979a4fb09ec457d80ae&redirect_uri=http://localhost&response_type=code

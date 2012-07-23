@@ -9,8 +9,8 @@
     <ProjectGuid>{CFC15D0C-5AB7-49E5-8A9F-98DF1A5EDA98}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RunKeeperClientApi.Test</RootNamespace>
-    <AssemblyName>RunKeeperClientApi.Test</AssemblyName>
+    <RootNamespace>RunKeeper.Client.Test</RootNamespace>
+    <AssemblyName>RunKeeper.Client.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -36,7 +36,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\RunKeeperClientApi\RunKeeperClientApi.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\RunKeeper.Client\RunKeeperClientSdk.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -58,15 +58,15 @@
     <Compile Include="RunKeeperRepositoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\RunKeeperClientApi\RunKeeperClientApi.snk">
-      <Link>RunKeeperClientApi.snk</Link>
+    <None Include="..\RunKeeper.Client\RunKeeperClientSdk.snk">
+      <Link>RunKeeperClientSdk.snk</Link>
     </None>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RunKeeperClientApi\RunKeeperClientApi.csproj">
+    <ProjectReference Include="..\RunKeeper.Client\RunKeeper.Client.csproj">
       <Project>{35D3275C-D0E8-4611-9E83-33D6FA15320F}</Project>
-      <Name>RunKeeperClientApi</Name>
+      <Name>RunKeeper.Client</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -8,8 +8,8 @@
     <ProjectGuid>{35D3275C-D0E8-4611-9E83-33D6FA15320F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RunKeeperClientApi</RootNamespace>
-    <AssemblyName>RunKeeperClientApi</AssemblyName>
+    <RootNamespace>RunKeeper.Client</RootNamespace>
+    <AssemblyName>RunKeeper.Client</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
@@ -107,7 +107,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>RunKeeperClientApi.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>RunKeeperClientSdk.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -132,7 +132,7 @@
     <Compile Include="WebProxyFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="RunKeeperClientApi.snk" />
+    <None Include="RunKeeperClientSdk.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

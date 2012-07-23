@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.IO;
 using System.Globalization;
 
-namespace RunKeeperClientApi
+namespace RunKeeper.Client
 {
     /// <summary>
     /// Responsible for providing RunKeeperAccount objects.

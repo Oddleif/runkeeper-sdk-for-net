@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace RunKeeperClientApi.Test
+namespace RunKeeper.Client.Test
 {
     [TestClass]
     public class RunKeeperRepositoryTest

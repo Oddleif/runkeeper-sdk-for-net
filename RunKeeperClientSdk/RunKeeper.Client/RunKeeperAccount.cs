@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.Serialization.Json;
 
-namespace RunKeeperClientApi
+namespace RunKeeper.Client
 {
     /// <summary>
     /// Class to interact with the content related to a

@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Net;
 using System;
 
-namespace RunKeeperClientApi
+namespace RunKeeper.Client
 {
     /// <summary>
     /// Test proxy to simulate runkeeper api invokations.

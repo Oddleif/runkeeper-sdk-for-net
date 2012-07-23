@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 
-namespace RunKeeperClientApi.Test
+namespace RunKeeper.Client.Test
 {
     [TestClass]
     public class FitnessActivityFeedTest

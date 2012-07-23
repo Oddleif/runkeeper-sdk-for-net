@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Diagnostics.Contracts;
 
-namespace RunKeeperClientApi
+namespace RunKeeper.Client
 {
     /// <summary>
     /// A collection of fitness activities. The result source 
