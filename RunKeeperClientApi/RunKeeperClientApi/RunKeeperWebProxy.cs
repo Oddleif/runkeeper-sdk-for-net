@@ -42,12 +42,17 @@ namespace RunKeeperClientApi
             return requestObject;
         }
 
-        private static void WriteBodyToRequestObject(string body, HttpWebRequest requestObject)
+        private void WriteBodyToRequestObject(string body, HttpWebRequest requestObject)
         {
-            using (var streamWriter = new StreamWriter(requestObject.GetRequestStream()))
+            using (var streamWriter = new StreamWriter(GetRequestStream(requestObject)))
             {
-                streamWriter.Write(body);
+                streamWriter.Write(body);                
             }
+        }
+
+        protected virtual Stream GetRequestStream(HttpWebRequest requestObject)
+        {
+            return requestObject.GetRequestStream();
         }
 
         public virtual Stream Get(string endpoint, NameValueCollection headers)
