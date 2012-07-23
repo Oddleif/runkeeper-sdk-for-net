@@ -87,8 +87,6 @@ namespace RunKeeperClientApi
 
         private Stream GetActivityFeedResponseStream(Uri feedUri)
         {
-            
-
             var headers = new NameValueCollection();
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
             SetAuthorizationHeader(headers);
