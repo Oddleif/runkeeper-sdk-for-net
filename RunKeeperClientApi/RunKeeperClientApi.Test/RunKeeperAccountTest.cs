@@ -90,7 +90,49 @@ namespace RunKeeperClientApi.Test
             ValidateFeed(fitnessActivityFeed);
 
             ValidateFeedItems(fitnessActivityFeed);
-        }               
+        }
+
+        [TestMethod]
+        public void Equals1Test()
+        {
+            Assert.AreEqual(new RunKeeperAccount("a"), new RunKeeperAccount("a"));
+        }
+
+        [TestMethod]
+        public void Equals2Test()
+        {
+            Assert.AreNotEqual(new RunKeeperAccount("a"), null);
+        }
+
+        [TestMethod]
+        public void Equals3Test()
+        {
+            Assert.AreNotEqual(new RunKeeperAccount("a"), new object());
+        }
+
+        [TestMethod]
+        public void Equals4Test()
+        {
+            Assert.AreNotEqual(new RunKeeperAccount("a"), new RunKeeperAccount("b"));
+        }
+
+        [TestMethod]
+        public void GetHashCodeWithSameAccessTokenTest()
+        {
+            var feedA = new RunKeeperAccount("a");
+            var feedB = new RunKeeperAccount("a");
+
+            Assert.AreNotEqual(feedA.GetHashCode(), feedB.GetHashCode());
+        }
+
+        [TestMethod]
+        public void GetHashCodeWithDifferentAccessTokenTest()
+        {
+            var feedA = new RunKeeperAccount("a");
+            var feedB = new RunKeeperAccount("b");
+
+            Assert.AreNotEqual(feedA.GetHashCode(), feedB.GetHashCode());
+        }
 
         private static void ValidateFeed(FitnessActivityFeed fitnessActivityFeed)
         {

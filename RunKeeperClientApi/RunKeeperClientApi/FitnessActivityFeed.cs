@@ -17,6 +17,8 @@ namespace RunKeeperClientApi
     [DataContract]
     public class FitnessActivityFeed
     {
+        private IList<FitnessActivityFeedItem> _items = new List<FitnessActivityFeedItem>();
+
         /// <summary>
         /// Endpoint address to the previous set of activities in the feed.
         /// </summary>
@@ -40,7 +42,17 @@ namespace RunKeeperClientApi
         /// multiple pages it will only contain the items for the current page.
         /// </summary>
         [DataMember(Name="items")]
-        public IList<FitnessActivityFeedItem> Items { get; set; }
+        public IList<FitnessActivityFeedItem> Items 
+        {
+            get
+            {
+                return _items;
+            }
+            set
+            {
+                _items = value;
+            }
+        }
 
         /// <summary>
         /// Indicates if the current feed has more pages or not.
@@ -88,7 +100,11 @@ namespace RunKeeperClientApi
                 return false;
             if (PreviousPageUri != compareTo.PreviousPageUri)
                 return false;
-            if (RunKeeperAccount.AccessToken != compareTo.RunKeeperAccount.AccessToken)
+            if (RunKeeperAccount == null && compareTo.RunKeeperAccount != null)
+                return false;
+            if (RunKeeperAccount != null && compareTo.RunKeeperAccount == null)
+                return false;
+            if (RunKeeperAccount != null && compareTo.RunKeeperAccount != null && !RunKeeperAccount.Equals(compareTo.RunKeeperAccount))
                 return false;
             if (TotalActivityCount != compareTo.TotalActivityCount)
                 return false;

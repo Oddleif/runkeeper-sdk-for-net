@@ -65,6 +65,7 @@ namespace RunKeeperClientApi
         internal FitnessActivityFeed GetFitnessActivityFeed(Uri feedUri)
         {
             Contract.Requires(feedUri != null);
+            Contract.Requires(!String.IsNullOrEmpty(feedUri.ToString()));
 
             var responseStream = GetActivityFeedResponseStream(feedUri);
 
@@ -86,6 +87,8 @@ namespace RunKeeperClientApi
 
         private Stream GetActivityFeedResponseStream(Uri feedUri)
         {
+            
+
             var headers = new NameValueCollection();
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
             SetAuthorizationHeader(headers);
@@ -101,6 +104,24 @@ namespace RunKeeperClientApi
                 headers.Set("Authorization", AccessToken);
             else
                 headers.Add("Authorization", AccessToken);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is RunKeeperAccount == false)
+                return false;
+
+            var compareTo = (RunKeeperAccount)obj;
+
+            if (AccessToken != compareTo.AccessToken)
+                return false;           
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

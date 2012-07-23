@@ -16,12 +16,43 @@ namespace RunKeeperClientApi
     [DataContract]
     public class FitnessActivityFeedItem
     {
+        private double _durationInSeconds;
+
         /// <summary>
         /// Total duration in seconds as returned by the 
         /// activity feed.
         /// </summary>
         [DataMember(Name="duration")]
-        public double DurationInSeconds { get; set; }
+        public double DurationInSeconds 
+        { 
+            get
+            {
+                return _durationInSeconds;
+            }
+            
+            set 
+            {
+                if (MoreThan3DigitsAfterSeparator(value))
+                    throw new ArgumentException("No more than 3 digits allowed after the separator.", "value");
+
+                _durationInSeconds = value;
+            }
+        }
+
+        private static bool MoreThan3DigitsAfterSeparator(double value)
+        {           
+            var valueAsString = value.ToString(CultureInfo.InvariantCulture);
+            if (valueAsString.Contains('.'))
+            {
+                var indexOfFirstDigitAfterSeparator = valueAsString.IndexOf('.')+1;
+                var length = valueAsString.Length - indexOfFirstDigitAfterSeparator;
+
+                if (length > 3)
+                    return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Duration in seconds converted into a timespan object
@@ -30,7 +61,7 @@ namespace RunKeeperClientApi
         public TimeSpan Duration
         {
             get
-            {
+            {               
                 var split = DurationInSeconds.ToString(CultureInfo.InvariantCulture).Split('.');
                 
                 var seconds = Convert.ToInt32(split[0], CultureInfo.CurrentCulture);
