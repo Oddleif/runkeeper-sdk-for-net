@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<TestSettings name="Default" id="641eafff-22c9-4752-ab41-0b0066aac07a" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+<TestSettings name="Local" id="d6ef7d9e-087f-4e41-a3fe-1083788136c5" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
   <Execution>
     <TestTypeSpecific>
@@ -23,14 +23,12 @@
       <DataCollectors>
         <DataCollector uri="datacollector://microsoft/CodeCoverage/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.CodeCoverage.CoveragePlugIn, Microsoft.VisualStudio.QualityTools.Plugins.CodeCoverage, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="Code Coverage">
           <Configuration>
-            <CodeCoverage keyFile="RunKeeperClientSdk.snk" xmlns="">
+            <CodeCoverage keyFile="RunKeeper.Client\RunKeeperClientSdk.snk" xmlns="">
               <Regular>
-                <CodeCoverageItem binaryFile="bin\Debug\RunKeeper.Client.dll" pdbFile="bin\Debug\RunKeeper.Client.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="RunKeeper.Client\bin\Debug\RunKeeper.Client.dll" pdbFile="RunKeeper.Client\bin\Debug\RunKeeper.Client.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>
-        </DataCollector>
-        <DataCollector uri="datacollector://Microsoft/TestImpact/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TraceCollector.TestImpactDataCollector, Microsoft.VisualStudio.TraceCollector, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
         </DataCollector>
       </DataCollectors>
     </AgentRule>

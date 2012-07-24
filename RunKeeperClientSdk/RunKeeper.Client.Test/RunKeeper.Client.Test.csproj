@@ -6,7 +6,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CFC15D0C-5AB7-49E5-8A9F-98DF1A5EDA98}</ProjectGuid>
+    <ProjectGuid>{29547322-609A-43EB-AA38-0448B28D1100}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RunKeeper.Client.Test</RootNamespace>
@@ -39,12 +39,19 @@
     <AssemblyOriginatorKeyFile>..\RunKeeper.Client\RunKeeperClientSdk.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -54,22 +61,22 @@
   <ItemGroup>
     <Compile Include="FitnessActivityFeedItemTest.cs" />
     <Compile Include="FitnessActivityFeedTest.cs" />
-    <Compile Include="HeartRateTest.cs" />
+    <Compile Include="FitnessActivityTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunKeeperAccountTest.cs" />
     <Compile Include="RunKeeperRepositoryTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RunKeeper.Client\RunKeeper.Client.csproj">
+      <Project>{577AFFFA-C599-4B29-9605-542B954F12A2}</Project>
+      <Name>RunKeeper.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\RunKeeper.Client\RunKeeperClientSdk.snk">
       <Link>RunKeeperClientSdk.snk</Link>
     </None>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RunKeeper.Client\RunKeeper.Client.csproj">
-      <Project>{35D3275C-D0E8-4611-9E83-33D6FA15320F}</Project>
-      <Name>RunKeeper.Client</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

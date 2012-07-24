@@ -9,6 +9,8 @@ namespace RunKeeper.Client
     [DataContract]
     public class FitnessActivity : FitnessActivityFeedItem
     {
+        private IList<HeartRate> _heartRates = new List<HeartRate>();
+
         [DataMember(Name="climb")]
         public double Climb { get; set; }
 
@@ -28,6 +30,16 @@ namespace RunKeeper.Client
         public string Notes { get; set; }
 
         [DataMember(Name="heart_rate")]
-        public IList<HeartRate> HearRates { get; set; }
+        public IList<HeartRate> HearRates 
+        {
+            get
+            {
+                return _heartRates;
+            }
+            set
+            {
+                _heartRates = value;
+            }
+        }
     }
 }
