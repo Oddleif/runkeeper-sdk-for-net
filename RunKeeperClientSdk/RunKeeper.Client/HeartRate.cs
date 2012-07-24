@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 
 namespace RunKeeper.Client
 {
+    [DataContract]
     public class HeartRate
     {
         /// <summary>

@@ -5,9 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunKeeper.Client", "RunKeep
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A5E1867-455D-4AB5-B656-AD790F5FC18A}"
 	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
+		Default.testsettings = Default.testsettings
 		RunKeeperClientSdk.vsmdi = RunKeeperClientSdk.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RunKeeper.Client.Test", "..\RunKeeper.Client.Test\RunKeeper.Client.Test.csproj", "{CFC15D0C-5AB7-49E5-8A9F-98DF1A5EDA98}"

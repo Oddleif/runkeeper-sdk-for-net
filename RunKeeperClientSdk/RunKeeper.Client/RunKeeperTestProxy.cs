@@ -3,6 +3,7 @@ using System.IO;
 using System.Diagnostics.Contracts;
 using System.Net;
 using System;
+using System.Web;
 
 namespace RunKeeper.Client
 {
@@ -68,7 +69,7 @@ namespace RunKeeper.Client
                                   }
                                 "));
                 default:
-                    throw new NotImplementedException();
+                    throw new HttpException(403, "Forbidden");
             }
         }
 

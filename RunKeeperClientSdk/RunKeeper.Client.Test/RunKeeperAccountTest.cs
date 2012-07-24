@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
+using System.Web;
 
 namespace RunKeeper.Client.Test
 {
@@ -176,7 +177,35 @@ namespace RunKeeper.Client.Test
 
             var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/103032067", UriKind.Relative));
 
-            Assert.Inconclusive("Assert not completed.");
+            Assert.AreEqual("Cycling", activity.ActivityType);
+            Assert.AreEqual(new Uri("/fitnessActivities/103032067", UriKind.Relative), activity.ActivityUri);
+            Assert.AreEqual(120, activity.AverageHeartRate);
+            Assert.AreEqual(647.363636363638, activity.Climb);
+            Assert.AreEqual(46387.3439279308, activity.Distance);
+            Assert.AreEqual(7029, activity.DurationInSeconds);
+            Assert.AreEqual("None", activity.Equipment);
+            
+            // Just checking the count including first and last
+            // to get an indication about the collection beging valid or not.
+            Assert.AreEqual(3431, activity.HearRates.Count);
+            Assert.AreEqual(0, activity.HearRates[0].Timestamp);
+            Assert.AreEqual(84, activity.HearRates[0].BeatsPerMinute);
+            Assert.AreEqual(7029, activity.HearRates[3430].Timestamp);
+            Assert.AreEqual(106, activity.HearRates[3430].BeatsPerMinute);
+            
+            Assert.AreEqual(false, activity.IsLive);
+            Assert.AreEqual("Stiv og st?l f?r start. Gikk tungt, men pr?vde ? ta det rolig. Dro p? for moro i noen bakker. Gikk s?nn t?lig.", activity.Notes);
+            Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", activity.StartTime);
+            Assert.AreEqual(1274, activity.TotalCalories);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(HttpException))]
+        public void GetFitnessActiviyInvalidUriTest()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            account.GetFitnessActivity(new Uri("/fitnessActivities/516468", UriKind.Relative));
         }
     }
 }

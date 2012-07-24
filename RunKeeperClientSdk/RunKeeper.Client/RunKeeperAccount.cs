@@ -135,7 +135,6 @@ namespace RunKeeper.Client
                 var serializer = new DataContractJsonSerializer(typeof(FitnessActivity));
 
                 return (FitnessActivity)serializer.ReadObject(reponse);
-
             }
         }
     }
