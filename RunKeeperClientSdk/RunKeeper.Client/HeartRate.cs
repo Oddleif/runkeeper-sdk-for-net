@@ -6,11 +6,16 @@ using System.Runtime.Serialization;
 
 namespace RunKeeper.Client
 {
+    /// <summary>
+    /// Contains a hear rate measurement for a given time
+    /// in an activity.
+    /// </summary>
     [DataContract]
     public class HeartRate
     {
         /// <summary>
-        /// Timestamp for hear rate measurement.
+        /// Seconds since activity starte when the hear rate measurement
+        /// was taken.
         /// </summary>
         [DataMember(Name="timestamp")]
         public double Timestamp { get; set; }

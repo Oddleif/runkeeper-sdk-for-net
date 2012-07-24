@@ -62,15 +62,15 @@ namespace RunKeeper.Client.Test
 
 
         /// <summary>
-        ///A test for HearRates
+        /// Ensures that the heart rates never are initialized to null.
         ///</summary>
         [TestMethod()]
-        public void HearRatesNullTest()
+        public void HeartRatesNullTest()
         {
-            FitnessActivity target = new FitnessActivity(); // TODO: Initialize to an appropriate value
+            FitnessActivity target = new FitnessActivity();
 
-            Assert.IsNotNull(target.HearRates);
-            Assert.AreEqual(0, target.HearRates.Count);
+            Assert.IsNotNull(target.HeartRates);
+            Assert.AreEqual(0, target.HeartRates.Count);
         }
     }
 }
