@@ -211,8 +211,7 @@ namespace RunKeeper.Client.Test
             Assert.AreEqual(7029, activity.HeartRates[3430].Timestamp);
             Assert.AreEqual(106, activity.HeartRates[3430].BeatsPerMinute);
             
-            Assert.AreEqual(false, activity.IsLive);
-            Assert.AreEqual("Stiv og st?l f?r start. Gikk tungt, men pr?vde ? ta det rolig. Dro p? for moro i noen bakker. Gikk s?nn t?lig.", activity.Notes);
+            Assert.AreEqual(false, activity.IsLive);            
             Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", activity.StartTime);
             Assert.AreEqual(1274, activity.TotalCalories);
         }

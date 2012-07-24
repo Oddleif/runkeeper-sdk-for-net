@@ -38,9 +38,6 @@ namespace RunKeeper.Client
         [DataMember(Name="is_live")]
         public bool IsLive { get; set; }
 
-        [DataMember(Name="notes")]
-        public string Notes { get; set; }
-
         /// <summary>
         /// List of heart rate measurements for the activity.
         /// </summary>
