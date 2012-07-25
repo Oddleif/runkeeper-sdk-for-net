@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Globalization;
 using System.Diagnostics.Contracts;
 
-namespace RunKeeperClientApi
+namespace RunKeeper.Client
 {
     /// <summary>
     /// Contains high level details about the fitness activity.
