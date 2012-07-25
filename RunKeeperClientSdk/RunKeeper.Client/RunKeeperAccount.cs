@@ -67,32 +67,14 @@ namespace RunKeeper.Client
             Contract.Requires(feedUri != null);
             Contract.Requires(!String.IsNullOrEmpty(feedUri.ToString()));
 
-            using (var responseStream = GetActivityFeedResponseStream(feedUri))
-            {
-                return GetActivityFeedFromStream(responseStream);
-            }
-        }
-
-        private FitnessActivityFeed GetActivityFeedFromStream(Stream responseStream)
-        {
-            Contract.Ensures(Contract.Result<FitnessActivityFeed>().RunKeeperAccount == this);
-
-            var serializer = new DataContractJsonSerializer(typeof(FitnessActivityFeed));
-
-            var feed = (FitnessActivityFeed)serializer.ReadObject(responseStream);
-
-            feed.RunKeeperAccount = this;
-            
-            return feed;
-        }
-
-        private Stream GetActivityFeedResponseStream(Uri feedUri)
-        {
             var headers = new NameValueCollection();
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
             SetAuthorizationHeader(headers);
 
-            return WebProxyFactory.GetWebProxy().Get(feedUri.ToString(), headers);
+            var feed = WebProxyFactory.GetWebProxy().Get<FitnessActivityFeed>(feedUri.ToString(), headers);
+            feed.RunKeeperAccount = this;
+
+            return feed;
         }
 
         private void SetAuthorizationHeader(NameValueCollection headers)
@@ -136,12 +118,7 @@ namespace RunKeeper.Client
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivity+json");
             SetAuthorizationHeader(headers);
 
-            using (var reponse = WebProxyFactory.GetWebProxy().Get(activityUri.ToString(), headers))
-            {
-                var serializer = new DataContractJsonSerializer(typeof(FitnessActivity));
-
-                return (FitnessActivity)serializer.ReadObject(reponse);
-            }
+            return WebProxyFactory.GetWebProxy().Get<FitnessActivity>(activityUri.ToString(), headers);
         }
 
         /// <summary>
@@ -154,12 +131,7 @@ namespace RunKeeper.Client
             headers.Add("Accept", "application/vnd.com.runkeeper.Profile+json");
             SetAuthorizationHeader(headers);
 
-            using (var reponse = WebProxyFactory.GetWebProxy().Get("/profile", headers))
-            {
-                var serializer = new DataContractJsonSerializer(typeof(RunKeeperProfile));
-
-                return (RunKeeperProfile)serializer.ReadObject(reponse);
-            }
+            return WebProxyFactory.GetWebProxy().Get<RunKeeperProfile>("/profile", headers);
         }
     }
 }
