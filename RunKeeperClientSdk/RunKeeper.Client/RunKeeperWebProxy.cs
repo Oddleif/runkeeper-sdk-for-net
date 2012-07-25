@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Diagnostics.Contracts;
 
-namespace RunKeeperClientApi
+namespace RunKeeper.Client
 {
     /// <summary>
     /// Responsible for the communication with the 

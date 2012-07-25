@@ -2,8 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
+using System.Web;
 
-namespace RunKeeperClientApi.Test
+namespace RunKeeper.Client.Test
 {
     /// <summary>    
     /// https://runkeeper.com/apps/authorize?client_id=2083a749bab14979a4fb09ec457d80ae&redirect_uri=http://localhost&response_type=code
@@ -12,6 +13,24 @@ namespace RunKeeperClientApi.Test
     [TestClass]
     public class RunKeeperAccountTest
     {
+        private TestContext testContextInstance;
+
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
+        }
+
         [TestMethod]
         public void GetRecentActivitiesTest()
         {
@@ -166,7 +185,44 @@ namespace RunKeeperClientApi.Test
         {
             Contract.Ensures(Contract.Result<RunKeeperAccount>() != null);
 
-            return RunKeeperAccountsRepository.GetRunKeeperAccount("Bearer 2ec59fa926d044bea8dc256174619625");
+            return RunKeeperAccountsRepository.GetRunKeeperAccount("Bearer e37ea03007e3459eb2bcff30e598c9b8");
+        }
+
+        [TestMethod]
+        public void GetFitnessActivityTest()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/103032067", UriKind.Relative));
+
+            Assert.AreEqual("Cycling", activity.ActivityType);
+            Assert.AreEqual(new Uri("/fitnessActivities/103032067", UriKind.Relative), activity.ActivityUri);
+            Assert.AreEqual(120, activity.AverageHeartRate);
+            Assert.AreEqual(647.363636363638, activity.Climb);
+            Assert.AreEqual(46387.3439279308, activity.Distance);
+            Assert.AreEqual(7029, activity.DurationInSeconds);
+            Assert.AreEqual("None", activity.Equipment);
+            
+            // Just checking the count including first and last
+            // to get an indication about the collection beging valid or not.
+            Assert.AreEqual(3431, activity.HeartRates.Count);
+            Assert.AreEqual(0, activity.HeartRates[0].Timestamp);
+            Assert.AreEqual(84, activity.HeartRates[0].BeatsPerMinute);
+            Assert.AreEqual(7029, activity.HeartRates[3430].Timestamp);
+            Assert.AreEqual(106, activity.HeartRates[3430].BeatsPerMinute);
+            
+            Assert.AreEqual(false, activity.IsLive);            
+            Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", activity.StartTime);
+            Assert.AreEqual(1274, activity.TotalCalories);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(HttpException))]
+        public void GetFitnessActiviyInvalidUriTest()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            account.GetFitnessActivity(new Uri("/fitnessActivities/516468", UriKind.Relative));
         }
     }
 }

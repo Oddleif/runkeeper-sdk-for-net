@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.Serialization.Json;
 
-namespace RunKeeperClientApi
+namespace RunKeeper.Client
 {
     /// <summary>
     /// Class to interact with the content related to a
@@ -60,7 +60,7 @@ namespace RunKeeperClientApi
         public FitnessActivityFeed GetFitnessActivityFeed()
         {
             return GetFitnessActivityFeed(new Uri("/fitnessActivities", UriKind.Relative));
-        }
+        }        
 
         internal FitnessActivityFeed GetFitnessActivityFeed(Uri feedUri)
         {
@@ -87,8 +87,6 @@ namespace RunKeeperClientApi
 
         private Stream GetActivityFeedResponseStream(Uri feedUri)
         {
-            
-
             var headers = new NameValueCollection();
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
             SetAuthorizationHeader(headers);
@@ -122,6 +120,22 @@ namespace RunKeeperClientApi
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public FitnessActivity GetFitnessActivity(Uri activityUri)
+        {
+            Contract.Requires(!String.IsNullOrEmpty(activityUri.ToString()));
+
+            var headers = new NameValueCollection();
+            headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivity+json");
+            SetAuthorizationHeader(headers);
+
+            using (var reponse = WebProxyFactory.GetWebProxy().Get(activityUri.ToString(), headers))
+            {
+                var serializer = new DataContractJsonSerializer(typeof(FitnessActivity));
+
+                return (FitnessActivity)serializer.ReadObject(reponse);
+            }
         }
     }
 }
