@@ -225,5 +225,17 @@ namespace RunKeeper.Client.Test
 
             account.GetFitnessActivity(new Uri("/fitnessActivities/516468", UriKind.Relative));
         }
+
+        [TestMethod]
+        public void GetRunKeeperProfileTest()
+        {
+            var account = GetActiveRunKeeperAccount();
+            var profile = account.GetProfile();
+
+            Assert.AreEqual("Oddleif Halvorsen", profile.Name);
+            Assert.AreEqual("Oslo, Norway", profile.Location);
+            Assert.AreEqual(false, profile.Elite);
+            Assert.AreEqual("Fri, 11 Sep 1981 00:00:00", profile.Birthday);
+        }
     }
 }
