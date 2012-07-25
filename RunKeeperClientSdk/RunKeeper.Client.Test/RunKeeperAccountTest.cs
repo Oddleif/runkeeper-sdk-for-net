@@ -214,6 +214,7 @@ namespace RunKeeper.Client.Test
             Assert.AreEqual(false, activity.IsLive);            
             Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", activity.StartTime);
             Assert.AreEqual(1274, activity.TotalCalories);
+            Assert.AreEqual(8819026, activity.UserId);
         }
 
         [TestMethod]
