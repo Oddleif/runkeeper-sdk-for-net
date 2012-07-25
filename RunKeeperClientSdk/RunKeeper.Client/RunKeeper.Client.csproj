@@ -92,6 +92,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunKeeperAccount.cs" />
     <Compile Include="RunKeeperAccountsRepository.cs" />
+    <Compile Include="RunKeeperProfile.cs" />
     <Compile Include="RunKeeperTestProxy.cs" />
     <Compile Include="RunKeeperWebProxy.cs" />
     <Compile Include="WebProxyFactory.cs" />

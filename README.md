@@ -17,5 +17,8 @@
 	<li>
 		Get fintess activity details
 	</li>
+	<li>
+		Get users profile
+	</li>
 </ol>
 <p>Note that this sdk currently does not implement the full set of features upported by the HealtGraph API, but focuses on the most relevant to start with.</p>
