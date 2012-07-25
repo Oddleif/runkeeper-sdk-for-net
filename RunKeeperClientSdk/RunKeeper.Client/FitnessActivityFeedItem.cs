@@ -96,8 +96,22 @@ namespace RunKeeper.Client
         /// Time when activity started.
         /// </summary>
         [DataMember(Name = "start_time")]
-        public string StartTime { get; set; }
-        
+        public string StartTimeString { get; set; }
+
+        /// <summary>
+        /// Returns the start time for the activity. Runkeeper
+        /// does not keep track of timezones, so assume this to be the local time
+        /// for wherever the activity was tracked.
+        /// </summary>
+        public DateTime StartTime
+        {
+            get
+            {
+                var date = Convert.ToDateTime(StartTimeString);
+
+                return date;
+            }
+        }
         /// <summary>
         /// The address to where you can get the activity details.
         /// </summary>
@@ -119,7 +133,7 @@ namespace RunKeeper.Client
                 return false;
             if (DurationInSeconds != compareTo.DurationInSeconds)
                 return false;
-            if (this.StartTime != compareTo.StartTime)
+            if (this.StartTimeString != compareTo.StartTimeString)
                 return false;
 
             return true;

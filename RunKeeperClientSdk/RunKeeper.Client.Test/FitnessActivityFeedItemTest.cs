@@ -81,7 +81,7 @@ namespace RunKeeper.Client.Test
         [TestMethod]
         public void Equals8Test()
         {
-            Assert.AreNotEqual(new FitnessActivityFeedItem() { StartTime = "Fri, 20 Jul 2012 09:52:29" }, new FitnessActivityFeedItem() { StartTime = "Fri, 20 Jul 2012 10:52:29" });
+            Assert.AreNotEqual(new FitnessActivityFeedItem() { StartTimeString = "Fri, 20 Jul 2012 09:52:29" }, new FitnessActivityFeedItem() { StartTimeString = "Fri, 20 Jul 2012 10:52:29" });
         }
 
         [TestMethod]
@@ -99,6 +99,16 @@ namespace RunKeeper.Client.Test
 
             Assert.AreEqual(durationInSeconds, item.DurationInSeconds);
             Assert.AreEqual(new TimeSpan(0, 0, 0, 23, 123), item.Duration);
+        }
+
+        [TestMethod]
+        public void StartTimeDateObjTest()
+        {
+            var dateString = "Thu, 19 Jul 2012 10:29:09";
+            var item = new FitnessActivityFeedItem() { StartTimeString = "Thu, 19 Jul 2012 10:29:09" };
+
+            // Since runkeeper is not providing us with a timezone I just skip that part
+            Assert.IsTrue(item.StartTime.ToString("R").StartsWith(dateString));
         }
     }
 }

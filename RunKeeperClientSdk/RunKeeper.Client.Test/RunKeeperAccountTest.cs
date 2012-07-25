@@ -169,7 +169,7 @@ namespace RunKeeper.Client.Test
             Assert.AreEqual(7581.0285921453, runningActivity.Distance);
             Assert.AreEqual(new TimeSpan(0, 0, 0, 2677, 43), runningActivity.Duration);
             Assert.AreEqual(2677.43, runningActivity.DurationInSeconds);
-            Assert.AreEqual("Fri, 20 Jul 2012 09:52:29", runningActivity.StartTime);
+            Assert.AreEqual("Fri, 20 Jul 2012 09:52:29", runningActivity.StartTimeString);
             Assert.AreEqual(new Uri("/fitnessActivities/103227434", UriKind.Relative), runningActivity.ActivityUri);
 
             var cyclingActivity = fitnessActivityFeed.Items[1];
@@ -177,7 +177,7 @@ namespace RunKeeper.Client.Test
             Assert.AreEqual(46387.3439279308, cyclingActivity.Distance);
             Assert.AreEqual(new TimeSpan(0, 0, 0, 7029, 0), cyclingActivity.Duration);
             Assert.AreEqual(7029, cyclingActivity.DurationInSeconds);
-            Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", cyclingActivity.StartTime);
+            Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", cyclingActivity.StartTimeString);
             Assert.AreEqual(new Uri("/fitnessActivities/103032067", UriKind.Relative), cyclingActivity.ActivityUri);
         }
 
@@ -212,7 +212,7 @@ namespace RunKeeper.Client.Test
             Assert.AreEqual(106, activity.HeartRates[3430].BeatsPerMinute);
             
             Assert.AreEqual(false, activity.IsLive);            
-            Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", activity.StartTime);
+            Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", activity.StartTimeString);
             Assert.AreEqual(1274, activity.TotalCalories);
             Assert.AreEqual(8819026, activity.UserId);
         }
@@ -235,7 +235,7 @@ namespace RunKeeper.Client.Test
             Assert.AreEqual("Oddleif Halvorsen", profile.Name);
             Assert.AreEqual("Oslo, Norway", profile.Location);
             Assert.AreEqual(false, profile.Elite);
-            Assert.AreEqual("Fri, 11 Sep 1981 00:00:00", profile.Birthday);
+            Assert.AreEqual("Fri, 11 Sep 1981 00:00:00", profile.BirthdayDateString);
         }
     }
 }
