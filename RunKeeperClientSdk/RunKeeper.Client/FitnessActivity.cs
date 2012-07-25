@@ -15,6 +15,12 @@ namespace RunKeeper.Client
         private IList<HeartRate> _heartRates = new List<HeartRate>();
 
         /// <summary>
+        /// The activity owner id.
+        /// </summary>
+        [DataMember(Name="userID")]
+        public int UserId { get; set; }
+
+        /// <summary>
         /// Total climt in metric meters.
         /// </summary>
         [DataMember(Name="climb")]

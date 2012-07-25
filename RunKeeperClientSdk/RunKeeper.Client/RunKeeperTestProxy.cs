@@ -68,6 +68,18 @@ namespace RunKeeper.Client
                                   ""notes"": ""Stiv og st�l f�r start. Gikk tungt, men pr�vde � ta det rolig. Dro p� for moro i noen bakker. Gikk s�nn t�lig."",
                                   }
                                 "));
+                case "/profile":
+                    return new MemoryStream(Encoding.Default.GetBytes(@"
+                                {
+                                  ""birthday"": ""Fri, 11 Sep 1981 00:00:00"",
+                                  ""location"": ""Oslo, Norway"",
+                                  ""name"": ""Oddleif Halvorsen"",
+                                  ""elite"": ""false"",
+                                  ""gender"": ""M"",
+                                  ""athlete_type"": ""Runner"",
+                                  ""profile"": ""http://runkeeper.com/user/oddleifhalvorsen"",
+                                  }
+                                "));
                 default:
                     throw new HttpException(403, "Forbidden");
             }
