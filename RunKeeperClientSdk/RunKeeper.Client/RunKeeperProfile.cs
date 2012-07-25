@@ -19,7 +19,7 @@ namespace RunKeeper.Client
         public bool Elite { get; set; }
         
         [DataMember(Name="birthday")]
-        public string BirthdayDateString { get; set; }
+        internal string BirthdayDateString { get; set; }
 
         public DateTime Birthday
         {

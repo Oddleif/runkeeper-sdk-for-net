@@ -23,7 +23,7 @@ namespace RunKeeper.Client
         /// activity feed.
         /// </summary>
         [DataMember(Name="duration")]
-        public double DurationInSeconds 
+        internal double DurationInSeconds 
         { 
             get
             {
@@ -96,7 +96,7 @@ namespace RunKeeper.Client
         /// Time when activity started.
         /// </summary>
         [DataMember(Name = "start_time")]
-        public string StartTimeString { get; set; }
+        internal string StartTimeString;
 
         /// <summary>
         /// Returns the start time for the activity. Runkeeper
