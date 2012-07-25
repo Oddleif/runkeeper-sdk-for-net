@@ -13,10 +13,10 @@ namespace RunKeeper.Client.Test
         public void GetBirthdayConverstionTest()
         {
             var dateString = "Fri, 11 Sep 1981 00:00:00";
-            var item = new FitnessActivityFeedItem() { StartTimeString = "Fri, 11 Sep 1981 00:00:00" };
+            var item = new RunKeeperProfile() { BirthdayDateString = "Fri, 11 Sep 1981 00:00:00" };
 
             // Since runkeeper is not providing us with a timezone I just skip that part
-            Assert.IsTrue(item.StartTime.ToString("R").StartsWith(dateString));
+            Assert.IsTrue(item.Birthday.ToString("R").StartsWith(dateString));
         }
     }
 }
