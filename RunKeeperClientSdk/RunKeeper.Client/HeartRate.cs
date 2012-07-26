@@ -19,7 +19,7 @@ namespace RunKeeper.Client
         /// </summary>
         [DataMember(Name="timestamp")]
         public double Timestamp { get; set; }
-        
+
         /// <summary>
         /// Beats per minute at the given timestamp.
         /// </summary>

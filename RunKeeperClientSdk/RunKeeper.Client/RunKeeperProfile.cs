@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Globalization;
 
 namespace RunKeeper.Client
 {
@@ -19,6 +20,14 @@ namespace RunKeeper.Client
         public bool Elite { get; set; }
         
         [DataMember(Name="birthday")]
-        public string Birthday { get; set; }
+        internal string BirthdayDateString { get; set; }
+
+        public DateTime Birthday
+        {
+            get
+            {
+                return Convert.ToDateTime(BirthdayDateString, CultureInfo.InvariantCulture);
+            }
+        }
     }
 }
