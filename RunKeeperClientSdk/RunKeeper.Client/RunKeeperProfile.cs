@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Globalization;
 
 namespace RunKeeper.Client
 {
@@ -25,7 +26,7 @@ namespace RunKeeper.Client
         {
             get
             {
-                return Convert.ToDateTime(BirthdayDateString);
+                return Convert.ToDateTime(BirthdayDateString, CultureInfo.InvariantCulture);
             }
         }
     }

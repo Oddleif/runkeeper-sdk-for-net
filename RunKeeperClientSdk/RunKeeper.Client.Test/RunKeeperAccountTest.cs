@@ -237,5 +237,21 @@ namespace RunKeeper.Client.Test
             Assert.AreEqual(false, profile.Elite);
             Assert.AreEqual("Fri, 11 Sep 1981 00:00:00", profile.BirthdayDateString);
         }
+
+        [TestMethod]
+        public void FitnessUriNullTest()
+        {
+            var account = new RunKeeperAccount("Bearer ...");
+
+            Assert.IsNull(account.FitnessActivitiesUri);
+        }
+
+        [TestMethod]
+        public void ProfileUriNullTest()
+        {
+            var account = new RunKeeperAccount("Bearer ...");
+
+            Assert.IsNull(account.ProfileUri);
+        }
     }
 }

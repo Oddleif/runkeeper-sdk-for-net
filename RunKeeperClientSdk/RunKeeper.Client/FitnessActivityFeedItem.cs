@@ -107,7 +107,7 @@ namespace RunKeeper.Client
         {
             get
             {
-                var date = Convert.ToDateTime(StartTimeString);
+                var date = Convert.ToDateTime(StartTimeString, CultureInfo.InvariantCulture);
 
                 return date;
             }

@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 
 namespace RunKeeper.Client
 {
@@ -10,12 +11,13 @@ namespace RunKeeper.Client
     /// Class to interact with the content related to a
     /// RunKeeper account.
     /// </summary>
+    [DataContract]
     public class RunKeeperAccount
     {
         /// <summary>
         /// The access token for the current account.
         /// </summary>
-        public string AccessToken { get; private set; }
+        public string AccessToken { get; internal set; }
 
         internal RunKeeperAccount(string accessToken)
         {
@@ -59,7 +61,7 @@ namespace RunKeeper.Client
         /// <returns>The first page of the FitnessActivityFeed.</returns>
         public FitnessActivityFeed GetFitnessActivityFeed()
         {
-            return GetFitnessActivityFeed(new Uri("/fitnessActivities", UriKind.Relative));
+            return GetFitnessActivityFeed(FitnessActivitiesUri);
         }        
 
         internal FitnessActivityFeed GetFitnessActivityFeed(Uri feedUri)
@@ -131,7 +133,38 @@ namespace RunKeeper.Client
             headers.Add("Accept", "application/vnd.com.runkeeper.Profile+json");
             SetAuthorizationHeader(headers);
 
-            return WebProxyFactory.GetWebProxy().Get<RunKeeperProfile>("/profile", headers);
+            return WebProxyFactory.GetWebProxy().Get<RunKeeperProfile>(_profileUri, headers);
+        }
+
+        [DataMember(Name="userID")]
+        public int UserId { get; set; }
+
+        [DataMember(Name = "fitness_activities")]
+        private string _fitnessActivitiesUri;
+        
+        [DataMember(Name = "profile")]
+        private string _profileUri;
+
+        public Uri FitnessActivitiesUri 
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_fitnessActivitiesUri))
+                    return null;
+
+                return new Uri(_fitnessActivitiesUri, UriKind.Relative);
+            }
+        }
+
+        public Uri ProfileUri
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_profileUri))
+                    return null;
+
+                return new Uri(_profileUri, UriKind.Relative);
+            }
         }
     }
 }
