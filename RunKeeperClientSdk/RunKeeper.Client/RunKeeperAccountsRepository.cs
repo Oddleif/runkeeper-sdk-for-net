@@ -4,6 +4,7 @@ using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
 using System.IO;
 using System.Globalization;
+using System.Collections.Specialized;
 
 namespace RunKeeper.Client
 {
@@ -46,7 +47,14 @@ namespace RunKeeper.Client
             Contract.Ensures(Contract.Result<RunKeeperAccount>() != null);
             Contract.Ensures(!String.IsNullOrEmpty(Contract.Result<RunKeeperAccount>().AccessToken));
 
-            return new RunKeeperAccount(accessToken);
+            var headers = new NameValueCollection();
+            headers.Add("Accept", "application/vnd.com.runkeeper.User+json");
+            headers.Add("Authorization", accessToken);
+
+            var account = WebProxyFactory.GetWebProxy().Get<RunKeeperAccount>("/user", headers);
+            account.AccessToken = accessToken;
+
+            return account;
         }
 
         private static string GetAccessToken(string clientAuthorizationCode, string clientId, string clientSecret, string redirectUri)

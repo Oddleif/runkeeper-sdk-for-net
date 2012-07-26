@@ -3,6 +3,7 @@ using System.Net;
 using System.Collections.Specialized;
 using System.IO;
 using System.Diagnostics.Contracts;
+using System.Runtime.Serialization.Json;
 
 namespace RunKeeper.Client
 {
@@ -55,6 +56,13 @@ namespace RunKeeper.Client
             return requestObject.GetRequestStream();
         }
 
+        /// <summary>
+        /// Should be used only if you really need to reponse stream directly. In all other sitatuions the
+        /// generic version with buildt in de-serialization should be used.
+        /// </summary>
+        /// <param name="endpoint"></param>
+        /// <param name="headers"></param>
+        /// <returns></returns>
         public virtual Stream Get(string endpoint, NameValueCollection headers)
         {
             Contract.Requires(!String.IsNullOrEmpty(endpoint));
@@ -68,10 +76,15 @@ namespace RunKeeper.Client
             return GetResponse(request);
         }
 
-        protected virtual Stream GetResponseStream(HttpWebRequest request)
-        {
-            return request.GetResponse().GetResponseStream();
+        public virtual T Get<T>(string endpoint, NameValueCollection headers)
+        {           
+            using (var responseStream = Get(endpoint, headers))
+            {
+                var serializer = new DataContractJsonSerializer(typeof(T));
+                return (T)serializer.ReadObject(responseStream);
+            }
         }
+
 
         private static void SetRequestHeaders(NameValueCollection headers, HttpWebRequest request)
         {

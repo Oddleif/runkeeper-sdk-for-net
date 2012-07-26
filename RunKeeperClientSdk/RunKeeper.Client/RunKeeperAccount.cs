@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 
 namespace RunKeeper.Client
 {
@@ -10,12 +11,13 @@ namespace RunKeeper.Client
     /// Class to interact with the content related to a
     /// RunKeeper account.
     /// </summary>
+    [DataContract]
     public class RunKeeperAccount
     {
         /// <summary>
         /// The access token for the current account.
         /// </summary>
-        public string AccessToken { get; private set; }
+        public string AccessToken { get; internal set; }
 
         internal RunKeeperAccount(string accessToken)
         {
@@ -59,7 +61,7 @@ namespace RunKeeper.Client
         /// <returns>The first page of the FitnessActivityFeed.</returns>
         public FitnessActivityFeed GetFitnessActivityFeed()
         {
-            return GetFitnessActivityFeed(new Uri("/fitnessActivities", UriKind.Relative));
+            return GetFitnessActivityFeed(FitnessActivitiesUri);
         }        
 
         internal FitnessActivityFeed GetFitnessActivityFeed(Uri feedUri)
@@ -67,32 +69,14 @@ namespace RunKeeper.Client
             Contract.Requires(feedUri != null);
             Contract.Requires(!String.IsNullOrEmpty(feedUri.ToString()));
 
-            using (var responseStream = GetActivityFeedResponseStream(feedUri))
-            {
-                return GetActivityFeedFromStream(responseStream);
-            }
-        }
-
-        private FitnessActivityFeed GetActivityFeedFromStream(Stream responseStream)
-        {
-            Contract.Ensures(Contract.Result<FitnessActivityFeed>().RunKeeperAccount == this);
-
-            var serializer = new DataContractJsonSerializer(typeof(FitnessActivityFeed));
-
-            var feed = (FitnessActivityFeed)serializer.ReadObject(responseStream);
-
-            feed.RunKeeperAccount = this;
-            
-            return feed;
-        }
-
-        private Stream GetActivityFeedResponseStream(Uri feedUri)
-        {
             var headers = new NameValueCollection();
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivityFeed+json");
             SetAuthorizationHeader(headers);
 
-            return WebProxyFactory.GetWebProxy().Get(feedUri.ToString(), headers);
+            var feed = WebProxyFactory.GetWebProxy().Get<FitnessActivityFeed>(feedUri.ToString(), headers);
+            feed.RunKeeperAccount = this;
+
+            return feed;
         }
 
         private void SetAuthorizationHeader(NameValueCollection headers)
@@ -136,12 +120,7 @@ namespace RunKeeper.Client
             headers.Add("Accept", "application/vnd.com.runkeeper.FitnessActivity+json");
             SetAuthorizationHeader(headers);
 
-            using (var reponse = WebProxyFactory.GetWebProxy().Get(activityUri.ToString(), headers))
-            {
-                var serializer = new DataContractJsonSerializer(typeof(FitnessActivity));
-
-                return (FitnessActivity)serializer.ReadObject(reponse);
-            }
+            return WebProxyFactory.GetWebProxy().Get<FitnessActivity>(activityUri.ToString(), headers);
         }
 
         /// <summary>
@@ -154,11 +133,37 @@ namespace RunKeeper.Client
             headers.Add("Accept", "application/vnd.com.runkeeper.Profile+json");
             SetAuthorizationHeader(headers);
 
-            using (var reponse = WebProxyFactory.GetWebProxy().Get("/profile", headers))
-            {
-                var serializer = new DataContractJsonSerializer(typeof(RunKeeperProfile));
+            return WebProxyFactory.GetWebProxy().Get<RunKeeperProfile>(_profileUri, headers);
+        }
 
-                return (RunKeeperProfile)serializer.ReadObject(reponse);
+        [DataMember(Name="userID")]
+        public int UserId { get; set; }
+
+        [DataMember(Name = "fitness_activities")]
+        private string _fitnessActivitiesUri;
+        
+        [DataMember(Name = "profile")]
+        private string _profileUri;
+
+        public Uri FitnessActivitiesUri 
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_fitnessActivitiesUri))
+                    return null;
+
+                return new Uri(_fitnessActivitiesUri, UriKind.Relative);
+            }
+        }
+
+        public Uri ProfileUri
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_profileUri))
+                    return null;
+
+                return new Uri(_profileUri, UriKind.Relative);
             }
         }
     }

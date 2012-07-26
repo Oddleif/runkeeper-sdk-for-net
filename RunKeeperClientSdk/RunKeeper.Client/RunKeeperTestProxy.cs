@@ -80,6 +80,24 @@ namespace RunKeeper.Client
                                   ""profile"": ""http://runkeeper.com/user/oddleifhalvorsen"",
                                   }
                                 "));
+                case "/user":
+                    return new MemoryStream(Encoding.Default.GetBytes(@"
+                                {
+                                  ""strength_training_activities"": ""/strengthTrainingActivities"",
+                                  ""weight"": ""/weight"",
+                                  ""settings"": ""/settings"",
+                                  ""diabetes"": ""/diabetes"",
+                                  ""team"": ""/team"",
+                                  ""sleep"": ""/sleep"",
+                                  ""fitness_activities"": ""/fitnessActivities"",
+                                  ""userID"": 8819026,
+                                  ""nutrition"": ""/nutrition"",
+                                  ""general_measurements"": ""/generalMeasurements"",
+                                  ""background_activities"": ""/backgroundActivities"",
+                                  ""records"": ""/records"",
+                                  ""profile"": ""/profile"",
+                                  }
+                                "));
                 default:
                     throw new HttpException(403, "Forbidden");
             }
