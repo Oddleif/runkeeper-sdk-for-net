@@ -185,7 +185,7 @@ namespace RunKeeper.Client.Test
         {
             Contract.Ensures(Contract.Result<RunKeeperAccount>() != null);
 
-            return RunKeeperAccountsRepository.GetRunKeeperAccount("Bearer e37ea03007e3459eb2bcff30e598c9b8");
+            return RunKeeperAccount.GetRunKeeperAccount("Bearer e37ea03007e3459eb2bcff30e598c9b8");
         }
 
         [TestMethod]
