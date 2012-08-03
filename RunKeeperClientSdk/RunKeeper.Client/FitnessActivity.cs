@@ -93,20 +93,6 @@ namespace RunKeeper.Client
             {
                 _distances = value;
             }
-        }
-
-        /// <summary>
-        /// Saves the current activity as a .tcx file based on the
-        /// data in the current activity.
-        /// </summary>
-        /// <param name="filename">The full path to where the file should be strored.</param>        
-        public void SaveAsTcx(string filename)
-        {
-            Contract.Requires(!String.IsNullOrEmpty(filename));
-
-            throw new NotImplementedException();
-        }
-
-        
+        }       
     }
 }

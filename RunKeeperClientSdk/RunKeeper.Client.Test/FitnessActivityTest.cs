@@ -96,13 +96,5 @@ namespace RunKeeper.Client.Test
             Assert.IsNotNull(target.ActivityPath);
             Assert.AreEqual(0, target.ActivityPath.Count);
         }
-
-        [TestMethod]
-        public void SaveAsTcxTest()
-        {
-            var activity = new FitnessActivity();
-
-            activity.SaveAsTcx("somewhere");
-        }
     }
 }
