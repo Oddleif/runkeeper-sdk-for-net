@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Diagnostics.Contracts;
 
 namespace RunKeeper.Client
 {
@@ -13,6 +14,7 @@ namespace RunKeeper.Client
     public class FitnessActivity : FitnessActivityFeedItem
     {
         private IList<HeartRate> _heartRates = new List<HeartRate>();
+        private IList<Point> _activityPath = new List<Point>();
 
         /// <summary>
         /// The activity owner id.
@@ -59,5 +61,35 @@ namespace RunKeeper.Client
                 _heartRates = value;
             }
         }
+
+        /// <summary>
+        /// The list of points that give the full path for the activity.
+        /// </summary>
+        [DataMember(Name="path")]
+        public IList<Point> ActivityPath
+        {
+            get
+            {
+                return _activityPath;
+            }
+            set
+            {
+                _activityPath = value;
+            }
+        }
+
+        /// <summary>
+        /// Saves the current activity as a .tcx file based on the
+        /// data in the current activity.
+        /// </summary>
+        /// <param name="filename">The full path to where the file should be strored.</param>        
+        public void SaveAsTcx(string filename)
+        {
+            Contract.Requires(!String.IsNullOrEmpty(filename));
+
+            throw new NotImplementedException();
+        }
+
+        
     }
 }

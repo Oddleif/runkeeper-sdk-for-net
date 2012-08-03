@@ -210,7 +210,21 @@ namespace RunKeeper.Client.Test
             Assert.AreEqual(84, activity.HeartRates[0].BeatsPerMinute);
             Assert.AreEqual(7029, activity.HeartRates[3430].Timestamp);
             Assert.AreEqual(106, activity.HeartRates[3430].BeatsPerMinute);
-            
+
+            var startPoint = activity.ActivityPath[0];
+            Assert.AreEqual(187, startPoint.Altitude);
+            Assert.AreEqual(59.881485, startPoint.Latitude);
+            Assert.AreEqual(10.849346, startPoint.Longitude);
+            Assert.AreEqual("start", startPoint.PointType);
+            Assert.AreEqual(0, startPoint.Timestamp);
+
+            var endPoint = activity.ActivityPath[activity.ActivityPath.Count - 1];
+            Assert.AreEqual(187, endPoint.Altitude);
+            Assert.AreEqual(59.881594, endPoint.Latitude);
+            Assert.AreEqual(10.849361, endPoint.Longitude);
+            Assert.AreEqual("end", endPoint.PointType);
+            Assert.AreEqual(7029, endPoint.Timestamp);
+
             Assert.AreEqual(false, activity.IsLive);            
             Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", activity.StartTimeString);
             Assert.AreEqual(1274, activity.TotalCalories);

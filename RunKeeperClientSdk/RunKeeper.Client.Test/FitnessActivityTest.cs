@@ -67,10 +67,30 @@ namespace RunKeeper.Client.Test
         [TestMethod()]
         public void HeartRatesNullTest()
         {
-            FitnessActivity target = new FitnessActivity();
+            var target = new FitnessActivity();
 
             Assert.IsNotNull(target.HeartRates);
             Assert.AreEqual(0, target.HeartRates.Count);
+        }
+
+        /// <summary>
+        /// Ensures that the heart rates never are initialized to null.
+        ///</summary>
+        [TestMethod()]
+        public void PathNullTest()
+        {
+            var target = new FitnessActivity();
+
+            Assert.IsNotNull(target.ActivityPath);
+            Assert.AreEqual(0, target.ActivityPath.Count);
+        }
+
+        [TestMethod]
+        public void SaveAsTcxTest()
+        {
+            var activity = new FitnessActivity();
+
+            activity.SaveAsTcx("somewhere");
         }
     }
 }

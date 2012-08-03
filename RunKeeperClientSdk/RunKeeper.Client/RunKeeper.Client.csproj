@@ -89,6 +89,7 @@
     <Compile Include="FitnessActivityFeed.cs" />
     <Compile Include="FitnessActivityFeedItem.cs" />
     <Compile Include="HeartRate.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunKeeperAccount.cs" />
     <Compile Include="RunKeeperAccountsRepository.cs" />
