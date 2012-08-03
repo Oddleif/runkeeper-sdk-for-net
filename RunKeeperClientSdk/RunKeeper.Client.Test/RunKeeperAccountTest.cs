@@ -225,6 +225,11 @@ namespace RunKeeper.Client.Test
             Assert.AreEqual("end", endPoint.PointType);
             Assert.AreEqual(7029, endPoint.Timestamp);
 
+            Assert.AreEqual(0, activity.Distances[0].Timestamp);
+            Assert.AreEqual(0, activity.Distances[0].DistanceInMeters);
+            Assert.AreEqual(7029, activity.Distances[activity.Distances.Count - 1].Timestamp);
+            Assert.AreEqual(46387.733873782054, activity.Distances[activity.Distances.Count - 1].DistanceInMeters);
+
             Assert.AreEqual(false, activity.IsLive);            
             Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", activity.StartTimeString);
             Assert.AreEqual(1274, activity.TotalCalories);

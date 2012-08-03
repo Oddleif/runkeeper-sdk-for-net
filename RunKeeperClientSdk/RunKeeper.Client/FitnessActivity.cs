@@ -15,6 +15,7 @@ namespace RunKeeper.Client
     {
         private IList<HeartRate> _heartRates = new List<HeartRate>();
         private IList<Point> _activityPath = new List<Point>();
+        private IList<Distance> _distances = new List<Distance>();
 
         /// <summary>
         /// The activity owner id.
@@ -75,6 +76,22 @@ namespace RunKeeper.Client
             set
             {
                 _activityPath = value;
+            }
+        }
+
+        /// <summary>
+        /// Contains a list of distances for given timestamps.
+        /// </summary>
+        [DataMember(Name = "distance")]
+        public IList<Distance> Distances
+        {
+            get
+            {
+                return _distances;
+            }
+            set
+            {
+                _distances = value;
             }
         }
 

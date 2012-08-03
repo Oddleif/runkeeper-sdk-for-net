@@ -77,6 +77,18 @@ namespace RunKeeper.Client.Test
         /// Ensures that the heart rates never are initialized to null.
         ///</summary>
         [TestMethod()]
+        public void DistanceNullTest()
+        {
+            var target = new FitnessActivity();
+
+            Assert.IsNotNull(target.Distances);
+            Assert.AreEqual(0, target.Distances.Count);
+        }
+
+        /// <summary>
+        /// Ensures that the heart rates never are initialized to null.
+        ///</summary>
+        [TestMethod()]
         public void PathNullTest()
         {
             var target = new FitnessActivity();
