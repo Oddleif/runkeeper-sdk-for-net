@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace RunKeeper.Client
 {
     [DataContract]
-    public class Point
+    public struct Point
     {
         [DataMember(Name="timestamp")]
         public int Timestamp { get; set; }

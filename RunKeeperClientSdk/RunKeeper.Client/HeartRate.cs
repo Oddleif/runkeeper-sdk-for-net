@@ -11,7 +11,7 @@ namespace RunKeeper.Client
     /// in an activity.
     /// </summary>
     [DataContract]
-    public class HeartRate
+    public struct HeartRate
     {
         /// <summary>
         /// Seconds since activity starte when the hear rate measurement
