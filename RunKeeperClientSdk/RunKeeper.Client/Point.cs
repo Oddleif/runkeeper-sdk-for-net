@@ -10,7 +10,7 @@ namespace RunKeeper.Client
     public struct Point
     {
         [DataMember(Name="timestamp")]
-        public int Timestamp { get; set; }
+        public double Timestamp { get; set; }
         
         [DataMember(Name="altitude")]
         public double Altitude { get; set; }

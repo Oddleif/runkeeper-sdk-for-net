@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
 using System.Web;
+using System.IO;
 
 namespace RunKeeper.Client.Test
 {
@@ -271,6 +272,44 @@ namespace RunKeeper.Client.Test
             var account = new RunKeeperAccount("Bearer ...");
 
             Assert.IsNull(account.ProfileUri);
+        }
+
+        [TestMethod]
+        public void SaveActivityAsTcxFilenameTest()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/103032067", UriKind.Relative));
+
+            var actualFilename = activity.SaveAsTcx(Directory.GetCurrentDirectory());
+            var excpectedFilename = Path.Combine(Directory.GetCurrentDirectory(), "103032067.tcx");
+
+            Assert.AreEqual(excpectedFilename, actualFilename);
+        }
+
+        [TestMethod]
+        public void SaveCyclingActivityWithHeartRateAsTcxFileExistsTest()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/103032067", UriKind.Relative));
+
+            var actualFilename = activity.SaveAsTcx(Directory.GetCurrentDirectory());
+
+            Assert.IsTrue(File.Exists(actualFilename));
+        }
+
+        [TestMethod]
+        public void SaveRunningActivityWithoutHeartRateAsTcxFile()
+        {
+            var account = GetActiveRunKeeperAccount();
+            
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/78576346", UriKind.Relative));
+            
+            activity.SaveAsTcx(Directory.GetCurrentDirectory());
+
+            // If no schema validation error or other error, assume okay for now.
+            // TODO: Add verification of expected output.
         }
     }
 }

@@ -10,7 +10,7 @@ namespace RunKeeper.Client
     public struct Distance
     {
         [DataMember(Name="timestamp")]
-        public int Timestamp { get; set; }
+        public double Timestamp { get; set; }
 
         [DataMember(Name="distance")]
         public double DistanceInMeters { get; set; }
