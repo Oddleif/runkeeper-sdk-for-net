@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Xml.Schema;
 
 namespace RunKeeper.Client.Test
 {
@@ -95,6 +96,19 @@ namespace RunKeeper.Client.Test
 
             Assert.IsNotNull(target.ActivityPath);
             Assert.AreEqual(0, target.ActivityPath.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void ValidationHandlerTest()
+        {
+            var document = new System.Xml.XmlDocument();
+            var rootElement = document.CreateElement("TrainingCenterDatabase", "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2");
+            document.AppendChild(rootElement);
+
+            rootElement.AppendChild(document.CreateElement("unknown"));
+
+            FitnessActivity.ValidatateTcxXml(document);
         }
     }
 }

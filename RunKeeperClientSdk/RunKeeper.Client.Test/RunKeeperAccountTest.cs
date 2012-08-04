@@ -206,11 +206,11 @@ namespace RunKeeper.Client.Test
             
             // Just checking the count including first and last
             // to get an indication about the collection beging valid or not.
-            Assert.AreEqual(3431, activity.HeartRates.Count);
+            Assert.AreEqual(3430, activity.HeartRates.Count);
             Assert.AreEqual(0, activity.HeartRates[0].Timestamp);
             Assert.AreEqual(84, activity.HeartRates[0].BeatsPerMinute);
-            Assert.AreEqual(7029, activity.HeartRates[3430].Timestamp);
-            Assert.AreEqual(106, activity.HeartRates[3430].BeatsPerMinute);
+            Assert.AreEqual(7029, activity.HeartRates[3429].Timestamp);
+            Assert.AreEqual(106, activity.HeartRates[3429].BeatsPerMinute);
 
             var startPoint = activity.ActivityPath[0];
             Assert.AreEqual(187, startPoint.Altitude);
@@ -305,6 +305,19 @@ namespace RunKeeper.Client.Test
             var account = GetActiveRunKeeperAccount();
             
             var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/78576346", UriKind.Relative));
+            
+            activity.SaveAsTcx(Directory.GetCurrentDirectory());
+
+            // If no schema validation error or other error, assume okay for now.
+            // TODO: Add verification of expected output.
+        }
+
+        [TestMethod]
+        public void SaveWalkingActivityWithoutHeartRateAsTcxFile()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/90834782", UriKind.Relative));
             
             activity.SaveAsTcx(Directory.GetCurrentDirectory());
 

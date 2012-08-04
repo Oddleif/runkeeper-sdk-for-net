@@ -117,8 +117,7 @@ namespace RunKeeper.Client
                 File.Delete(filename);
             
             var xmlDocument = new XmlDocument();
-            xmlDocument.Schemas.Add("http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2", "http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd");
-
+            
             var rootElement = xmlDocument.CreateElement("TrainingCenterDatabase", "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2");
             xmlDocument.AppendChild(rootElement);
             xmlDocument.InsertBefore(xmlDocument.CreateXmlDeclaration("1.0", "utf-8", null), rootElement);
@@ -126,10 +125,17 @@ namespace RunKeeper.Client
             var activities = AddChildeNode(rootElement, "Activities", null);
             AddActivity(activities);
 
-            xmlDocument.Validate(ValidationEventHandler);
+            ValidatateTcxXml(xmlDocument);
+            
             xmlDocument.Save(filename);
             
             return filename;
+        }
+
+        internal static void ValidatateTcxXml(XmlDocument xmlDocument)
+        {
+            xmlDocument.Schemas.Add("http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2", "http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd");
+            xmlDocument.Validate(ValidationEventHandler);
         }
 
         private string GetTcxFilename(string parentFolder)
@@ -220,7 +226,7 @@ namespace RunKeeper.Client
             return parent.AppendChild(element);
         }
 
-        private void ValidationEventHandler(object sender, ValidationEventArgs e)
+        private static void ValidationEventHandler(object sender, ValidationEventArgs e)
         {
             throw new Exception(e.Severity.ToString() + ": " + e.Message, e.Exception);            
         }
