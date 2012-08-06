@@ -100,7 +100,7 @@ namespace RunKeeper.Client.Test
 
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void ValidationHandlerTest()
+        public void ValidationHandlerErrorTest()
         {
             var document = new System.Xml.XmlDocument();
             var rootElement = document.CreateElement("TrainingCenterDatabase", "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2");

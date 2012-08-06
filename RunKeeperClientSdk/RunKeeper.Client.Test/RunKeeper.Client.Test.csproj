@@ -52,6 +52,10 @@
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="xmldiffpatch, Version=1.0.8.28, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\xmldiffpatch.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -78,7 +82,14 @@
       <Link>RunKeeperClientSdk.snk</Link>
     </None>
     <None Include="App.config" />
+    <EmbeddedResource Include="ExpectedOutput\90834782.tcx" />
+    <EmbeddedResource Include="ExpectedOutput\78576346.tcx" />
+    <EmbeddedResource Include="ExpectedOutput\103032067.tcx" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="xmldiffpatch.dll" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

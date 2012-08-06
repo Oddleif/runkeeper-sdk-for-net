@@ -4,6 +4,9 @@ using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
 using System.Web;
 using System.IO;
+using Microsoft.XmlDiffPatch;
+using System.Xml;
+using System.Reflection;
 
 namespace RunKeeper.Client.Test
 {
@@ -288,7 +291,7 @@ namespace RunKeeper.Client.Test
         }
 
         [TestMethod]
-        public void SaveCyclingActivityWithHeartRateAsTcxFileExistsTest()
+        public void SaveCyclingActivityWithHeartRateTest()
         {
             var account = GetActiveRunKeeperAccount();
 
@@ -297,6 +300,8 @@ namespace RunKeeper.Client.Test
             var actualFilename = activity.SaveAsTcx(Directory.GetCurrentDirectory());
 
             Assert.IsTrue(File.Exists(actualFilename));
+
+            CompareXml(actualFilename, "103032067.tcx");
         }
 
         [TestMethod]
@@ -306,10 +311,9 @@ namespace RunKeeper.Client.Test
             
             var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/78576346", UriKind.Relative));
             
-            activity.SaveAsTcx(Directory.GetCurrentDirectory());
+            var actualFileLocation = activity.SaveAsTcx(Directory.GetCurrentDirectory());
 
-            // If no schema validation error or other error, assume okay for now.
-            // TODO: Add verification of expected output.
+            CompareXml(actualFileLocation, "78576346.tcx");
         }
 
         [TestMethod]
@@ -319,10 +323,26 @@ namespace RunKeeper.Client.Test
 
             var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/90834782", UriKind.Relative));
             
-            activity.SaveAsTcx(Directory.GetCurrentDirectory());
+            var fileLocation = activity.SaveAsTcx(Directory.GetCurrentDirectory());
 
-            // If no schema validation error or other error, assume okay for now.
-            // TODO: Add verification of expected output.
+            CompareXml(fileLocation, "90834782.tcx");
+        }
+
+        private static void CompareXml(string actualFileLocation, string expectedFileName)
+        {
+            Contract.Requires(!String.IsNullOrEmpty(actualFileLocation));
+            Contract.Requires(!String.IsNullOrEmpty(expectedFileName));
+            Contract.Requires(File.Exists(actualFileLocation));        
+
+            var actualFile = new XmlDocument();
+            actualFile.Load(actualFileLocation);
+
+            var expectedFile = new XmlDocument();
+            expectedFile.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream("RunKeeper.Client.Test.ExpectedOutput." + expectedFileName));
+
+            var diff = new XmlDiff();
+
+            Assert.IsTrue(diff.Compare(expectedFile.DocumentElement, actualFile.DocumentElement));
         }
     }
 }
