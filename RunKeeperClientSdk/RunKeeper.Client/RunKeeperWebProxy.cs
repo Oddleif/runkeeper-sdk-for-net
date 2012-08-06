@@ -81,10 +81,10 @@ namespace RunKeeper.Client
             using (var responseStream = Get(endpoint, headers))
             {
                 var serializer = new DataContractJsonSerializer(typeof(T));
+                
                 return (T)serializer.ReadObject(responseStream);
             }
         }
-
 
         private static void SetRequestHeaders(NameValueCollection headers, HttpWebRequest request)
         {

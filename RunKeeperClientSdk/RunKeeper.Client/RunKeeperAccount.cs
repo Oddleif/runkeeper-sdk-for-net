@@ -166,5 +166,30 @@ namespace RunKeeper.Client
                 return new Uri(_profileUri, UriKind.Relative);
             }
         }
+
+        /// <summary>
+        /// Use this method if you already have an access token and just need a
+        /// RunKeeperAccount object.
+        /// </summary>
+        /// <param name="accessToken">A valid runkeeper access token.</param>
+        /// <returns></returns>
+        public static RunKeeperAccount GetRunKeeperAccount(string accessToken)
+        {
+            return RunKeeperAccountsRepository.GetRunKeeperAccount(accessToken);
+        }
+
+        /// <summary>
+        /// Returns a new RunKeeperAccount object with a valid access token embedded.
+        /// This will request a new access token for the given clientAuthorizationCode.
+        /// </summary>
+        /// <param name="clientAuthorizationCode"></param>
+        /// <param name="clientId"></param>
+        /// <param name="clientSecret"></param>
+        /// <param name="redirectUri"></param>
+        /// <returns>A RunKeeperAccount object with a valid access token.</returns>
+        public static RunKeeperAccount GetRunKeeperAccount(string clientAuthorizationCode, string clientId, string clientSecret, string redirectUri)
+        {
+            return RunKeeperAccountsRepository.GetRunKeeperAccount(clientAuthorizationCode, clientId, clientSecret, redirectUri);
+        }
     }
 }
