@@ -11,7 +11,7 @@ namespace RunKeeper.Client
     /// <summary>
     /// Responsible for providing RunKeeperAccount objects.
     /// </summary>
-    public static class RunKeeperAccountsRepository
+    internal static class RunKeeperAccountsRepository
     {
         /// <summary>
         /// Returns a new RunKeeperAccount object with a valid access token embedded.

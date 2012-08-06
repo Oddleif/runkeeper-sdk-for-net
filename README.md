@@ -18,6 +18,14 @@
 		Get fintess activity details
 	</li>
 	<li>
+		Save fitness activity as .tcx file
+		<ul>
+			<li>
+				Allows for easy export to other serviices including both path, heart rate info, +++.
+			</li>
+		</ul>
+	</li>
+	<li>
 		Get users profile
 	</li>
 </ol>

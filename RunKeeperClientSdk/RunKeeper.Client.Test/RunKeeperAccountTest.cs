@@ -3,6 +3,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
 using System.Web;
+using System.IO;
+using Microsoft.XmlDiffPatch;
+using System.Xml;
+using System.Reflection;
 
 namespace RunKeeper.Client.Test
 {
@@ -185,7 +189,7 @@ namespace RunKeeper.Client.Test
         {
             Contract.Ensures(Contract.Result<RunKeeperAccount>() != null);
 
-            return RunKeeperAccountsRepository.GetRunKeeperAccount("Bearer e37ea03007e3459eb2bcff30e598c9b8");
+            return RunKeeperAccount.GetRunKeeperAccount("Bearer e37ea03007e3459eb2bcff30e598c9b8");
         }
 
         [TestMethod]
@@ -205,12 +209,31 @@ namespace RunKeeper.Client.Test
             
             // Just checking the count including first and last
             // to get an indication about the collection beging valid or not.
-            Assert.AreEqual(3431, activity.HeartRates.Count);
+            Assert.AreEqual(3430, activity.HeartRates.Count);
             Assert.AreEqual(0, activity.HeartRates[0].Timestamp);
             Assert.AreEqual(84, activity.HeartRates[0].BeatsPerMinute);
-            Assert.AreEqual(7029, activity.HeartRates[3430].Timestamp);
-            Assert.AreEqual(106, activity.HeartRates[3430].BeatsPerMinute);
-            
+            Assert.AreEqual(7029, activity.HeartRates[3429].Timestamp);
+            Assert.AreEqual(106, activity.HeartRates[3429].BeatsPerMinute);
+
+            var startPoint = activity.ActivityPath[0];
+            Assert.AreEqual(187, startPoint.Altitude);
+            Assert.AreEqual(59.881485, startPoint.Latitude);
+            Assert.AreEqual(10.849346, startPoint.Longitude);
+            Assert.AreEqual("start", startPoint.PointType);
+            Assert.AreEqual(0, startPoint.Timestamp);
+
+            var endPoint = activity.ActivityPath[activity.ActivityPath.Count - 1];
+            Assert.AreEqual(187, endPoint.Altitude);
+            Assert.AreEqual(59.881594, endPoint.Latitude);
+            Assert.AreEqual(10.849361, endPoint.Longitude);
+            Assert.AreEqual("end", endPoint.PointType);
+            Assert.AreEqual(7029, endPoint.Timestamp);
+
+            Assert.AreEqual(0, activity.Distances[0].Timestamp);
+            Assert.AreEqual(0, activity.Distances[0].DistanceInMeters);
+            Assert.AreEqual(7029, activity.Distances[activity.Distances.Count - 1].Timestamp);
+            Assert.AreEqual(46387.733873782054, activity.Distances[activity.Distances.Count - 1].DistanceInMeters);
+
             Assert.AreEqual(false, activity.IsLive);            
             Assert.AreEqual("Thu, 19 Jul 2012 10:29:09", activity.StartTimeString);
             Assert.AreEqual(1274, activity.TotalCalories);
@@ -252,6 +275,74 @@ namespace RunKeeper.Client.Test
             var account = new RunKeeperAccount("Bearer ...");
 
             Assert.IsNull(account.ProfileUri);
+        }
+
+        [TestMethod]
+        public void SaveActivityAsTcxFilenameTest()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/103032067", UriKind.Relative));
+
+            var actualFilename = activity.SaveAsTcx(Directory.GetCurrentDirectory());
+            var excpectedFilename = Path.Combine(Directory.GetCurrentDirectory(), "103032067.tcx");
+
+            Assert.AreEqual(excpectedFilename, actualFilename);
+        }
+
+        [TestMethod]
+        public void SaveCyclingActivityWithHeartRateTest()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/103032067", UriKind.Relative));
+
+            var actualFilename = activity.SaveAsTcx(Directory.GetCurrentDirectory());
+
+            Assert.IsTrue(File.Exists(actualFilename));
+
+            CompareXml(actualFilename, "103032067.tcx");
+        }
+
+        [TestMethod]
+        public void SaveRunningActivityWithoutHeartRateAsTcxFile()
+        {
+            var account = GetActiveRunKeeperAccount();
+            
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/78576346", UriKind.Relative));
+            
+            var actualFileLocation = activity.SaveAsTcx(Directory.GetCurrentDirectory());
+
+            CompareXml(actualFileLocation, "78576346.tcx");
+        }
+
+        [TestMethod]
+        public void SaveWalkingActivityWithoutHeartRateAsTcxFile()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/90834782", UriKind.Relative));
+            
+            var fileLocation = activity.SaveAsTcx(Directory.GetCurrentDirectory());
+
+            CompareXml(fileLocation, "90834782.tcx");
+        }
+
+        private static void CompareXml(string actualFileLocation, string expectedFileName)
+        {
+            Contract.Requires(!String.IsNullOrEmpty(actualFileLocation));
+            Contract.Requires(!String.IsNullOrEmpty(expectedFileName));
+            Contract.Requires(File.Exists(actualFileLocation));        
+
+            var actualFile = new XmlDocument();
+            actualFile.Load(actualFileLocation);
+
+            var expectedFile = new XmlDocument();
+            expectedFile.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream("RunKeeper.Client.Test.ExpectedOutput." + expectedFileName));
+
+            var diff = new XmlDiff();
+
+            Assert.IsTrue(diff.Compare(expectedFile.DocumentElement, actualFile.DocumentElement));
         }
     }
 }

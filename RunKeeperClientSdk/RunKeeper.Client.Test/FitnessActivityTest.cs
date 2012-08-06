@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Xml.Schema;
 
 namespace RunKeeper.Client.Test
 {
@@ -67,10 +68,47 @@ namespace RunKeeper.Client.Test
         [TestMethod()]
         public void HeartRatesNullTest()
         {
-            FitnessActivity target = new FitnessActivity();
+            var target = new FitnessActivity();
 
             Assert.IsNotNull(target.HeartRates);
             Assert.AreEqual(0, target.HeartRates.Count);
+        }
+
+        /// <summary>
+        /// Ensures that the heart rates never are initialized to null.
+        ///</summary>
+        [TestMethod()]
+        public void DistanceNullTest()
+        {
+            var target = new FitnessActivity();
+
+            Assert.IsNotNull(target.Distances);
+            Assert.AreEqual(0, target.Distances.Count);
+        }
+
+        /// <summary>
+        /// Ensures that the heart rates never are initialized to null.
+        ///</summary>
+        [TestMethod()]
+        public void PathNullTest()
+        {
+            var target = new FitnessActivity();
+
+            Assert.IsNotNull(target.ActivityPath);
+            Assert.AreEqual(0, target.ActivityPath.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void ValidationHandlerErrorTest()
+        {
+            var document = new System.Xml.XmlDocument();
+            var rootElement = document.CreateElement("TrainingCenterDatabase", "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2");
+            document.AppendChild(rootElement);
+
+            rootElement.AppendChild(document.CreateElement("unknown"));
+
+            FitnessActivity.ValidatateTcxXml(document);
         }
     }
 }
