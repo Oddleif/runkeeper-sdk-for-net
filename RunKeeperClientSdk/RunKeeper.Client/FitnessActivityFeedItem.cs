@@ -32,26 +32,8 @@ namespace RunKeeper.Client
             
             set 
             {
-                if (MoreThan3DigitsAfterSeparator(value))
-                    throw new ArgumentException("No more than 3 digits allowed after the separator.", "value");
-
-                _durationInSeconds = value;
+                _durationInSeconds = Math.Round(value, 3);
             }
-        }
-
-        private static bool MoreThan3DigitsAfterSeparator(double value)
-        {           
-            var valueAsString = value.ToString(CultureInfo.InvariantCulture);
-            if (valueAsString.Contains('.'))
-            {
-                var indexOfFirstDigitAfterSeparator = valueAsString.IndexOf('.')+1;
-                var length = valueAsString.Length - indexOfFirstDigitAfterSeparator;
-
-                if (length > 3)
-                    return true;
-            }
-
-            return false;
         }
 
         /// <summary>
