@@ -106,10 +106,7 @@ namespace RunKeeper.Client
         /// <returns></returns>
         public string SaveAsTcx(string parentFolder)
         {
-            Contract.Requires(Directory.Exists(parentFolder));
-            // Assumes it's the same entries in all.
-            // what about missing heart rate data?            
-            Contract.Requires(ActivityPath.Count == Distances.Count);
+            Contract.Requires(Directory.Exists(parentFolder));           
 
             var filename = GetTcxFilename(parentFolder);
 
@@ -194,12 +191,10 @@ namespace RunKeeper.Client
         {
             var point = ActivityPath[i];
             var heartRate = HeartRates.Count == 0 ? null : HeartRates.Where(x => x.Timestamp == point.Timestamp).FirstOrDefault();
-            var distance = Distances[i];
+            var distance = Distances.Count == 0 ? null : Distances.Where(x => x.Timestamp == point.Timestamp).FirstOrDefault();
 
             if (heartRate != null)
                 Contract.Assert(point.Timestamp == heartRate.Timestamp);
-
-            Contract.Assume(point.Timestamp == distance.Timestamp);
 
             var trackPoint = AddChildeNode(track, "Trackpoint", null);
             AddChildeNode(trackPoint, "Time", StartTime.AddSeconds(point.Timestamp).ToUniversalTime().ToString("u").Replace(' ', 'T'));
@@ -207,7 +202,9 @@ namespace RunKeeper.Client
             AddChildeNode(position, "LatitudeDegrees", point.Latitude.ToString(CultureInfo.InvariantCulture));
             AddChildeNode(position, "LongitudeDegrees", point.Longitude.ToString(CultureInfo.InvariantCulture));
             AddChildeNode(trackPoint, "AltitudeMeters", point.Altitude.ToString(CultureInfo.InvariantCulture));
-            AddChildeNode(trackPoint, "DistanceMeters", distance.DistanceInMeters.ToString(CultureInfo.InvariantCulture));
+            
+            if (distance != null)
+                AddChildeNode(trackPoint, "DistanceMeters", distance.DistanceInMeters.ToString(CultureInfo.InvariantCulture));
 
             if (heartRate != null)
             {

@@ -328,6 +328,18 @@ namespace RunKeeper.Client.Test
             CompareXml(fileLocation, "90834782.tcx");
         }
 
+        [TestMethod]
+        public void SaveFitnessActivityAsTcx2()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/126036543", UriKind.Relative));
+
+            var actualFilename = activity.SaveAsTcx(Directory.GetCurrentDirectory());            
+
+            CompareXml(actualFilename, "126036543.tcx");
+        }
+
         private static void CompareXml(string actualFileLocation, string expectedFileName)
         {
             Contract.Requires(!String.IsNullOrEmpty(actualFileLocation));
