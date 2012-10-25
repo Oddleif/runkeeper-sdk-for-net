@@ -84,11 +84,22 @@ namespace RunKeeper.Client.Test
             Assert.AreNotEqual(new FitnessActivityFeedItem() { StartTimeString = "Fri, 20 Jul 2012 09:52:29" }, new FitnessActivityFeedItem() { StartTimeString = "Fri, 20 Jul 2012 10:52:29" });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [TestMethod]        
         public void DurationInSecondsTooManyDigitsTest()
         {
-            new FitnessActivityFeedItem() { DurationInSeconds = 23.1234 };
+            var feed = new FitnessActivityFeedItem() { DurationInSeconds = 23.1234 };
+
+            Assert.AreEqual(23, feed.Duration.Seconds);
+            Assert.AreEqual(123, feed.Duration.Milliseconds);
+        }
+
+        [TestMethod]
+        public void DurationInSecondsTooManyDigitsTest2()
+        {
+            var feed = new FitnessActivityFeedItem() { DurationInSeconds = 23.1235 };
+
+            Assert.AreEqual(23, feed.Duration.Seconds);
+            Assert.AreEqual(124, feed.Duration.Milliseconds);
         }
 
         [TestMethod]

@@ -106,10 +106,7 @@ namespace RunKeeper.Client
         /// <returns></returns>
         public string SaveAsTcx(string parentFolder)
         {
-            Contract.Requires(Directory.Exists(parentFolder));
-            // Assumes it's the same entries in all.
-            // what about missing heart rate data?            
-            Contract.Requires(ActivityPath.Count == Distances.Count);
+            Contract.Requires(Directory.Exists(parentFolder));           
 
             var filename = GetTcxFilename(parentFolder);
 
@@ -157,7 +154,8 @@ namespace RunKeeper.Client
         private void AddLap(XmlNode activity)
         {
             var lap = AddChildeNode(activity, "Lap", null);
-            lap.Attributes.Append(lap.OwnerDocument.CreateAttribute("StartTime")).Value = StartTime.ToUniversalTime().ToString("u").Replace(' ', 'T');
+
+            SetStartTime(lap);
 
             AddChildeNode(lap, "TotalTimeSeconds", this.DurationInSeconds.ToString(CultureInfo.InvariantCulture));
             AddChildeNode(lap, "DistanceMeters", this.Distance.ToString(CultureInfo.InvariantCulture));
@@ -166,6 +164,13 @@ namespace RunKeeper.Client
             AddChildeNode(lap, "TriggerMethod", "Manual");
 
             AddTrack(lap);
+        }
+
+        private void SetStartTime(XmlNode lap)
+        {
+            var startTimeattribute = lap.Attributes.Append(lap.OwnerDocument.CreateAttribute("StartTime"));
+
+            startTimeattribute.Value = StartTime.ToUniversalTime().ToString("u").Replace(' ', 'T');
         }
 
         private void AddTrack(XmlNode lap)
@@ -192,28 +197,57 @@ namespace RunKeeper.Client
 
         private void AddTrackpoint(XmlNode track, int i)
         {
-            var point = ActivityPath[i];
-            var heartRate = HeartRates.Count == 0 ? null : HeartRates.Where(x => x.Timestamp == point.Timestamp).FirstOrDefault();
-            var distance = Distances[i];
-
-            if (heartRate != null)
-                Contract.Assert(point.Timestamp == heartRate.Timestamp);
-
-            Contract.Assume(point.Timestamp == distance.Timestamp);
+            var point = ActivityPath[i];                      
 
             var trackPoint = AddChildeNode(track, "Trackpoint", null);
             AddChildeNode(trackPoint, "Time", StartTime.AddSeconds(point.Timestamp).ToUniversalTime().ToString("u").Replace(' ', 'T'));
-            var position = AddChildeNode(trackPoint, "Position", null);
-            AddChildeNode(position, "LatitudeDegrees", point.Latitude.ToString(CultureInfo.InvariantCulture));
-            AddChildeNode(position, "LongitudeDegrees", point.Longitude.ToString(CultureInfo.InvariantCulture));
+            AddPosition(point, trackPoint);
             AddChildeNode(trackPoint, "AltitudeMeters", point.Altitude.ToString(CultureInfo.InvariantCulture));
-            AddChildeNode(trackPoint, "DistanceMeters", distance.DistanceInMeters.ToString(CultureInfo.InvariantCulture));
+
+            AddDistance(point, trackPoint);
+            AddHearRate(point, trackPoint);
+        }
+
+        private void AddHearRate(Point point, XmlNode trackPoint)
+        {
+            var heartRate = GetHearRate(point);
 
             if (heartRate != null)
             {
+                Contract.Assert(point.Timestamp == heartRate.Timestamp);
+
                 var heartRateBpm = AddChildeNode(trackPoint, "HeartRateBpm", null);
                 AddChildeNode(heartRateBpm, "Value", heartRate.BeatsPerMinute.ToString(CultureInfo.InvariantCulture));
             }
+        }
+
+        private HeartRate GetHearRate(Point point)
+        {
+            return HeartRates.Count == 0 ? null : HeartRates.Where(x => x.Timestamp == point.Timestamp).FirstOrDefault();
+        }
+
+        private void AddDistance(Point point, XmlNode trackPoint)
+        {
+            var distance = GetDistance(point);
+
+            if (distance != null)
+            {
+                Contract.Assert(point.Timestamp == distance.Timestamp);
+
+                AddChildeNode(trackPoint, "DistanceMeters", distance.DistanceInMeters.ToString(CultureInfo.InvariantCulture));
+            }
+        }
+
+        private Client.Distance GetDistance(Point point)
+        {
+            return Distances.Count == 0 ? null : Distances.Where(x => x.Timestamp == point.Timestamp).FirstOrDefault();
+        }
+
+        private void AddPosition(Point point, XmlNode trackPoint)
+        {
+            var position = AddChildeNode(trackPoint, "Position", null);
+            AddChildeNode(position, "LatitudeDegrees", point.Latitude.ToString(CultureInfo.InvariantCulture));
+            AddChildeNode(position, "LongitudeDegrees", point.Longitude.ToString(CultureInfo.InvariantCulture));
         }
 
         private XmlNode AddChildeNode(XmlNode parent, string childName, string innerText)
