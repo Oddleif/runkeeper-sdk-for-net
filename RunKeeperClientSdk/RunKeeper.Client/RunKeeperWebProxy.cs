@@ -5,7 +5,7 @@ using System.IO;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization.Json;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     /// <summary>
     /// Responsible for the communication with the 

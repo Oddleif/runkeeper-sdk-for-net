@@ -9,7 +9,7 @@ using System.Xml;
 using System.Globalization;
 using System.Xml.Schema;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     /// <summary>
     /// Represents a fitness activity.

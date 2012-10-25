@@ -23,9 +23,9 @@
       <DataCollectors>
         <DataCollector uri="datacollector://microsoft/CodeCoverage/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.CodeCoverage.CoveragePlugIn, Microsoft.VisualStudio.QualityTools.Plugins.CodeCoverage, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="Code Coverage">
           <Configuration>
-            <CodeCoverage keyFile="RunKeeper.Client\RunKeeperClientSdk.snk" xmlns="">
+            <CodeCoverage keyFile="Oddleif.RunKeeper.Client\RunKeeperClientSdk.snk" xmlns="">
               <Regular>
-                <CodeCoverageItem binaryFile="RunKeeper.Client\bin\Debug\RunKeeper.Client.dll" pdbFile="RunKeeper.Client\bin\Debug\RunKeeper.Client.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="Oddleif.RunKeeper.Client\bin\Debug\Oddleif.RunKeeper.Client.dll" pdbFile="Oddleif.RunKeeper.Client\bin\Debug\Oddleif.RunKeeper.Client.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>

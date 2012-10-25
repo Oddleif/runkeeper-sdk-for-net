@@ -8,7 +8,7 @@ using Microsoft.XmlDiffPatch;
 using System.Xml;
 using System.Reflection;
 
-namespace RunKeeper.Client.Test
+namespace Oddleif.RunKeeper.Client.Test
 {
     /// <summary>    
     /// https://runkeeper.com/apps/authorize?client_id=2083a749bab14979a4fb09ec457d80ae&redirect_uri=http://localhost&response_type=code
@@ -350,7 +350,7 @@ namespace RunKeeper.Client.Test
             actualFile.Load(actualFileLocation);
 
             var expectedFile = new XmlDocument();
-            expectedFile.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream("RunKeeper.Client.Test.ExpectedOutput." + expectedFileName));
+            expectedFile.Load(Assembly.GetExecutingAssembly().GetManifestResourceStream("Oddleif.RunKeeper.Client.Test.ExpectedOutput." + expectedFileName));
 
             var diff = new XmlDiff();
 

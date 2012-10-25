@@ -1,10 +1,10 @@
 ﻿using System.Configuration;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     internal static class WebProxyFactory
     {
-        static readonly bool _testMode = ConfigurationManager.AppSettings["RunKeeper.Client.Mode"] == "Test";
+        static readonly bool _testMode = ConfigurationManager.AppSettings["Oddleif.RunKeeper.Client.Mode"] == "Test";
 
         public static RunKeeperWebProxy GetWebProxy()
         {

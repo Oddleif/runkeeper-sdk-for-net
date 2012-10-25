@@ -1,10 +1,10 @@
-﻿using RunKeeper.Client;
+﻿using Oddleif.RunKeeper.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Xml.Schema;
 
-namespace RunKeeper.Client.Test
+namespace Oddleif.RunKeeper.Client.Test
 {
     /// <summary>
     ///This is a test class for FitnessActivityTest and is intended

@@ -6,7 +6,7 @@ using System.IO;
 using System.Globalization;
 using System.Collections.Specialized;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     /// <summary>
     /// Responsible for providing RunKeeperAccount objects.

@@ -5,7 +5,7 @@ using System.Net;
 using System;
 using System.Web;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     /// <summary>
     /// Test proxy to simulate runkeeper api invokations.
