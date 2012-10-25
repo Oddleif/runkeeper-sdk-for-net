@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace RunKeeper.Client
 {
     [DataContract]
-    public struct Distance
+    public class Distance
     {
         [DataMember(Name="timestamp")]
         public double Timestamp { get; set; }

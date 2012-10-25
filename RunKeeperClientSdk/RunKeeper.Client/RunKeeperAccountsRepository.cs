@@ -24,9 +24,7 @@ namespace RunKeeper.Client
         /// <returns>A RunKeeperAccount object with a valid access token.</returns>
         public static RunKeeperAccount GetRunKeeperAccount(string clientAuthorizationCode, string clientId, string clientSecret, string redirectUri)
         {
-            Contract.Requires(!String.IsNullOrEmpty(clientAuthorizationCode));
-            Contract.Requires(!String.IsNullOrEmpty(clientId));
-            Contract.Requires(!String.IsNullOrEmpty(clientSecret));
+            Contract.Requires(!String.IsNullOrEmpty(clientAuthorizationCode) && !String.IsNullOrEmpty(clientId) && !String.IsNullOrEmpty(clientSecret));
             Contract.Requires(redirectUri != null);
             Contract.Ensures(Contract.Result<RunKeeperAccount>() != null);
 
@@ -47,14 +45,19 @@ namespace RunKeeper.Client
             Contract.Ensures(Contract.Result<RunKeeperAccount>() != null);
             Contract.Ensures(!String.IsNullOrEmpty(Contract.Result<RunKeeperAccount>().AccessToken));
 
+            var account = LoadAccountFromRunKeeper(accessToken);
+            account.AccessToken = accessToken;
+
+            return account;
+        }
+
+        private static RunKeeperAccount LoadAccountFromRunKeeper(string accessToken)
+        {
             var headers = new NameValueCollection();
             headers.Add("Accept", "application/vnd.com.runkeeper.User+json");
             headers.Add("Authorization", accessToken);
 
-            var account = WebProxyFactory.GetWebProxy().Get<RunKeeperAccount>("/user", headers);
-            account.AccessToken = accessToken;
-
-            return account;
+            return WebProxyFactory.GetWebProxy().Get<RunKeeperAccount>("/user", headers);
         }
 
         private static string GetAccessToken(string clientAuthorizationCode, string clientId, string clientSecret, string redirectUri)

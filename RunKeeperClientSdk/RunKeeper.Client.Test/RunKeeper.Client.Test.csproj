@@ -87,6 +87,7 @@
     <EmbeddedResource Include="ExpectedOutput\103032067.tcx" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ExpectedOutput\126036543.tcx" />
     <None Include="xmldiffpatch.dll" />
   </ItemGroup>
   <ItemGroup />
