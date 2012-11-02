@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oddleif.RunKeeper.Client", "RunKeeper.Client\Oddleif.RunKeeper.Client.csproj", "{577AFFFA-C599-4B29-9605-542B954F12A2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Oddleif.RunKeeper.Client.Test", "RunKeeper.Client.Test\Oddleif.RunKeeper.Client.Test.csproj", "{29547322-609A-43EB-AA38-0448B28D1100}"
@@ -8,14 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5C2900F9-1CE5-41C5-9B47-85680BC11B74}"
 	ProjectSection(SolutionItems) = preProject
 		Local.testsettings = Local.testsettings
-		RunKeeperClientSdk.vsmdi = RunKeeperClientSdk.vsmdi
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = RunKeeperClientSdk.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU

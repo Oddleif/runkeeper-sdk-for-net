@@ -146,7 +146,7 @@ namespace Oddleif.RunKeeper.Client
             var activity = AddChildeNode(activities, "Activity", null);
             SetSport(activity);
             
-            var idNode = AddChildeNode(activity, "Id", StartTime.ToUniversalTime().ToString("u").Replace(' ', 'T'));
+            AddChildeNode(activity, "Id", StartTime.ToUniversalTime().ToString("u").Replace(' ', 'T'));
 
             AddLap(activity);
         }
