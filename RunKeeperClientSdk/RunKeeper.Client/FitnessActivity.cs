@@ -104,6 +104,7 @@ namespace Oddleif.RunKeeper.Client
         /// </summary>
         /// <param name="parentFolder">Folder where the file should be created.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Tcx")]
         public string SaveAsTcx(string parentFolder)
         {
             Contract.Requires(Directory.Exists(parentFolder));           
@@ -243,14 +244,14 @@ namespace Oddleif.RunKeeper.Client
             return Distances.Count == 0 ? null : Distances.Where(x => x.Timestamp == point.Timestamp).FirstOrDefault();
         }
 
-        private void AddPosition(Point point, XmlNode trackPoint)
+        private static void AddPosition(Point point, XmlNode trackPoint)
         {
             var position = AddChildeNode(trackPoint, "Position", null);
             AddChildeNode(position, "LatitudeDegrees", point.Latitude.ToString(CultureInfo.InvariantCulture));
             AddChildeNode(position, "LongitudeDegrees", point.Longitude.ToString(CultureInfo.InvariantCulture));
         }
 
-        private XmlNode AddChildeNode(XmlNode parent, string childName, string innerText)
+        private static XmlNode AddChildeNode(XmlNode parent, string childName, string innerText)
         {
             var element = parent.OwnerDocument.CreateElement(childName, "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2");
 

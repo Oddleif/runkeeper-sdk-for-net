@@ -92,6 +92,7 @@
     <Compile Include="FitnessActivity.cs" />
     <Compile Include="FitnessActivityFeed.cs" />
     <Compile Include="FitnessActivityFeedItem.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HeartRate.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
