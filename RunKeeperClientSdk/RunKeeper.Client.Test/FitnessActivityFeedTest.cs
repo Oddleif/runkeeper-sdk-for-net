@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 
-namespace RunKeeper.Client.Test
+namespace Oddleif.RunKeeper.Client.Test
 {
     [TestClass]
     public class FitnessActivityFeedTest
@@ -173,8 +173,8 @@ namespace RunKeeper.Client.Test
         [TestMethod]
         public void Equals9Test()
         {
-            var feedA = new FitnessActivityFeed() { Items = new List<FitnessActivityFeedItem>() { new FitnessActivityFeedItem() { ActivityType = "Running" } } };
-            var feedB = new FitnessActivityFeed() { Items = new List<FitnessActivityFeedItem>() { new FitnessActivityFeedItem() { ActivityType = "Cycling" } } };
+            var feedA = new FitnessActivityFeed(new List<FitnessActivityFeedItem>() { new FitnessActivityFeedItem() { ActivityType = "Running" } } );
+            var feedB = new FitnessActivityFeed(new List<FitnessActivityFeedItem>() { new FitnessActivityFeedItem() { ActivityType = "Cycling" } } );
 
             Assert.AreNotEqual(feedA, feedB);
         }

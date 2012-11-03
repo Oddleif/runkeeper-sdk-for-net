@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Globalization;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     [DataContract]
     public class RunKeeperProfile

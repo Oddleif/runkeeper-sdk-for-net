@@ -5,7 +5,7 @@ using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Runtime.Serialization;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     /// <summary>
     /// Class to interact with the content related to a
@@ -43,9 +43,8 @@ namespace RunKeeper.Client
         /// </remarks>
         public string Get(string endpoint, NameValueCollection headers)
         {
-            Contract.Requires(!String.IsNullOrEmpty(endpoint));
-            Contract.Requires(headers != null);
-            Contract.Requires(headers.Count > 0);
+            Contract.Requires(!String.IsNullOrEmpty(endpoint));            
+            Contract.Requires(headers != null && headers.Count > 0);
 
             SetAuthorizationHeader(headers);
 
@@ -91,11 +90,10 @@ namespace RunKeeper.Client
 
         public override bool Equals(object obj)
         {
-            if (obj is RunKeeperAccount == false)
+            var compareTo = obj as RunKeeperAccount;
+
+            if (compareTo == null)
                 return false;
-
-            var compareTo = (RunKeeperAccount)obj;
-
             if (AccessToken != compareTo.AccessToken)
                 return false;           
 
@@ -112,6 +110,7 @@ namespace RunKeeper.Client
         /// </summary>
         /// <param name="activityUri">The uri to the activity details. For example: /fitnessActivity/123456</param>
         /// <returns>The fitness activity details.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public FitnessActivity GetFitnessActivity(Uri activityUri)
         {
             Contract.Requires(!String.IsNullOrEmpty(activityUri.ToString()));
@@ -127,6 +126,7 @@ namespace RunKeeper.Client
         /// Returns the profile associated with the current RunKeeper account.
         /// </summary>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public RunKeeperProfile GetProfile()
         {
             var headers = new NameValueCollection();
@@ -140,10 +140,10 @@ namespace RunKeeper.Client
         public int UserId { get; set; }
 
         [DataMember(Name = "fitness_activities")]
-        private string _fitnessActivitiesUri;
+        private string _fitnessActivitiesUri = null;
         
         [DataMember(Name = "profile")]
-        private string _profileUri;
+        private string _profileUri = null;
 
         public Uri FitnessActivitiesUri 
         {
@@ -187,6 +187,7 @@ namespace RunKeeper.Client
         /// <param name="clientSecret"></param>
         /// <param name="redirectUri"></param>
         /// <returns>A RunKeeperAccount object with a valid access token.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "3#")]
         public static RunKeeperAccount GetRunKeeperAccount(string clientAuthorizationCode, string clientId, string clientSecret, string redirectUri)
         {
             return RunKeeperAccountsRepository.GetRunKeeperAccount(clientAuthorizationCode, clientId, clientSecret, redirectUri);
