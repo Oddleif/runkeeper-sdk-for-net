@@ -4,7 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 
-namespace RunKeeper.Client.Test
+namespace Oddleif.RunKeeper.Client.Test
 {
     [TestClass]
     public class FitnessActivityFeedItemTest

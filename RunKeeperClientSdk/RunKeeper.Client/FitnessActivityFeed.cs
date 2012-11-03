@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.Serialization;
 using System.Diagnostics.Contracts;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     /// <summary>
     /// A collection of fitness activities. The result source 
@@ -17,7 +17,17 @@ namespace RunKeeper.Client
     [DataContract]
     public class FitnessActivityFeed
     {
-        private IList<FitnessActivityFeedItem> _items = new List<FitnessActivityFeedItem>();
+        internal FitnessActivityFeed()
+        {            
+        }
+
+        internal FitnessActivityFeed(IList<FitnessActivityFeedItem> items)
+        {
+            _items = items;
+        }
+
+        [DataMember(Name = "items")]
+        internal IList<FitnessActivityFeedItem> _items;
 
         /// <summary>
         /// Endpoint address to the previous set of activities in the feed.
@@ -40,17 +50,12 @@ namespace RunKeeper.Client
         /// <summary>
         /// The set of fitness activities in the feed. If the feed contains
         /// multiple pages it will only contain the items for the current page.
-        /// </summary>
-        [DataMember(Name="items")]
+        /// </summary>        
         public IList<FitnessActivityFeedItem> Items 
         {
             get
             {
-                return _items;
-            }
-            set
-            {
-                _items = value;
+                return _items ?? new List<FitnessActivityFeedItem>();
             }
         }
 
@@ -73,6 +78,7 @@ namespace RunKeeper.Client
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public FitnessActivityFeed GetNextPage()
         {
             Contract.Requires(HasNextPage);
@@ -80,6 +86,7 @@ namespace RunKeeper.Client
             return RunKeeperAccount.GetFitnessActivityFeed(NextPageUri);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public FitnessActivityFeed GetPreviousPage()
         {
             Contract.Requires(HasPreviousPage);
@@ -91,11 +98,10 @@ namespace RunKeeper.Client
 
         public override bool Equals(object obj)
         {
-            if (obj is FitnessActivityFeed == false)
+            var compareTo = obj as FitnessActivityFeed;
+
+            if (compareTo == null)
                 return false;
-
-            var compareTo = (FitnessActivityFeed)obj;
-
             if (NextPageUri != compareTo.NextPageUri)
                 return false;
             if (PreviousPageUri != compareTo.PreviousPageUri)

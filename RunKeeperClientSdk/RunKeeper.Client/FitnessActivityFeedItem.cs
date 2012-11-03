@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Globalization;
 using System.Diagnostics.Contracts;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     /// <summary>
     /// Contains high level details about the fitness activity.
@@ -102,11 +102,10 @@ namespace RunKeeper.Client
 
         public override bool Equals(object obj)
         {
-            if (obj is FitnessActivityFeedItem == false)
+            var compareTo = obj as FitnessActivityFeedItem;
+
+            if (compareTo == null)
                 return false;
-
-            var compareTo = (FitnessActivityFeedItem)obj;
-
             if (this.ActivityType != compareTo.ActivityType)
                 return false;
             if (this.ActivityUri != compareTo.ActivityUri)

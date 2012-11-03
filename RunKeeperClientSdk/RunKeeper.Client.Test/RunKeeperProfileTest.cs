@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace RunKeeper.Client.Test
+namespace Oddleif.RunKeeper.Client.Test
 {
     [TestClass]
     public class RunKeeperProfileTest

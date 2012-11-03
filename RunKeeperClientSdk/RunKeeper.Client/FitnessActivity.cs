@@ -9,7 +9,7 @@ using System.Xml;
 using System.Globalization;
 using System.Xml.Schema;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     /// <summary>
     /// Represents a fitness activity.
@@ -17,9 +17,12 @@ namespace RunKeeper.Client
     [DataContract]
     public class FitnessActivity : FitnessActivityFeedItem
     {
-        private IList<HeartRate> _heartRates = new List<HeartRate>();
-        private IList<Point> _activityPath = new List<Point>();
-        private IList<Distance> _distances = new List<Distance>();
+        [DataMember(Name = "heart_rate")]
+        internal readonly IList<HeartRate> _heartRates;
+        [DataMember(Name = "path")]
+        internal readonly IList<Point> _activityPath;
+        [DataMember(Name = "distance")]
+        internal readonly IList<Distance> _distances;
 
         /// <summary>
         /// The activity owner id.
@@ -53,49 +56,34 @@ namespace RunKeeper.Client
 
         /// <summary>
         /// List of heart rate measurements for the activity.
-        /// </summary>
-        [DataMember(Name="heart_rate")]
+        /// </summary>        
         public IList<HeartRate> HeartRates 
         {
             get
             {
-                return _heartRates;
-            }
-            set
-            {
-                _heartRates = value;
+                return _heartRates ?? new List<HeartRate>();
             }
         }
 
         /// <summary>
         /// The list of points that give the full path for the activity.
-        /// </summary>
-        [DataMember(Name="path")]
+        /// </summary>        
         public IList<Point> ActivityPath
         {
             get
             {
-                return _activityPath;
-            }
-            set
-            {
-                _activityPath = value;
+                return _activityPath ?? new List<Point>();
             }
         }
 
         /// <summary>
         /// Contains a list of distances for given timestamps.
         /// </summary>
-        [DataMember(Name = "distance")]
         public IList<Distance> Distances
         {
             get
             {
-                return _distances;
-            }
-            set
-            {
-                _distances = value;
+                return _distances ?? new List<Distance>();
             }
         }
 
@@ -104,9 +92,11 @@ namespace RunKeeper.Client
         /// </summary>
         /// <param name="parentFolder">Folder where the file should be created.</param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Tcx")]
         public string SaveAsTcx(string parentFolder)
         {
-            Contract.Requires(Directory.Exists(parentFolder));           
+            if (!Directory.Exists(parentFolder))
+                throw new RunKeeperClientException("folder does not exist.");
 
             var filename = GetTcxFilename(parentFolder);
 
@@ -145,8 +135,8 @@ namespace RunKeeper.Client
         {
             var activity = AddChildeNode(activities, "Activity", null);
             SetSport(activity);
-            
-            var idNode = AddChildeNode(activity, "Id", StartTime.ToUniversalTime().ToString("u").Replace(' ', 'T'));
+
+            AddChildeNode(activity, "Id", StartTime.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture).Replace(' ', 'T'));
 
             AddLap(activity);
         }
@@ -159,7 +149,7 @@ namespace RunKeeper.Client
 
             AddChildeNode(lap, "TotalTimeSeconds", this.DurationInSeconds.ToString(CultureInfo.InvariantCulture));
             AddChildeNode(lap, "DistanceMeters", this.Distance.ToString(CultureInfo.InvariantCulture));
-            AddChildeNode(lap, "Calories", this.TotalCalories.ToString());
+            AddChildeNode(lap, "Calories", this.TotalCalories.ToString(CultureInfo.InvariantCulture));
             AddChildeNode(lap, "Intensity", "Active");
             AddChildeNode(lap, "TriggerMethod", "Manual");
 
@@ -170,7 +160,7 @@ namespace RunKeeper.Client
         {
             var startTimeattribute = lap.Attributes.Append(lap.OwnerDocument.CreateAttribute("StartTime"));
 
-            startTimeattribute.Value = StartTime.ToUniversalTime().ToString("u").Replace(' ', 'T');
+            startTimeattribute.Value = StartTime.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture).Replace(' ', 'T');
         }
 
         private void AddTrack(XmlNode lap)
@@ -200,7 +190,7 @@ namespace RunKeeper.Client
             var point = ActivityPath[i];                      
 
             var trackPoint = AddChildeNode(track, "Trackpoint", null);
-            AddChildeNode(trackPoint, "Time", StartTime.AddSeconds(point.Timestamp).ToUniversalTime().ToString("u").Replace(' ', 'T'));
+            AddChildeNode(trackPoint, "Time", StartTime.AddSeconds(point.Timestamp).ToUniversalTime().ToString("u", CultureInfo.InvariantCulture).Replace(' ', 'T'));
             AddPosition(point, trackPoint);
             AddChildeNode(trackPoint, "AltitudeMeters", point.Altitude.ToString(CultureInfo.InvariantCulture));
 
@@ -243,14 +233,14 @@ namespace RunKeeper.Client
             return Distances.Count == 0 ? null : Distances.Where(x => x.Timestamp == point.Timestamp).FirstOrDefault();
         }
 
-        private void AddPosition(Point point, XmlNode trackPoint)
+        private static void AddPosition(Point point, XmlNode trackPoint)
         {
             var position = AddChildeNode(trackPoint, "Position", null);
             AddChildeNode(position, "LatitudeDegrees", point.Latitude.ToString(CultureInfo.InvariantCulture));
             AddChildeNode(position, "LongitudeDegrees", point.Longitude.ToString(CultureInfo.InvariantCulture));
         }
 
-        private XmlNode AddChildeNode(XmlNode parent, string childName, string innerText)
+        private static XmlNode AddChildeNode(XmlNode parent, string childName, string innerText)
         {
             var element = parent.OwnerDocument.CreateElement(childName, "http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2");
 
@@ -262,7 +252,7 @@ namespace RunKeeper.Client
 
         private static void ValidationEventHandler(object sender, ValidationEventArgs e)
         {
-            throw new Exception(e.Severity.ToString() + ": " + e.Message, e.Exception);            
+            throw new RunKeeperClientException(e.Severity.ToString() + ": " + e.Message, e.Exception);            
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 
-namespace RunKeeper.Client
+namespace Oddleif.RunKeeper.Client
 {
     [DataContract]
     public class Distance
