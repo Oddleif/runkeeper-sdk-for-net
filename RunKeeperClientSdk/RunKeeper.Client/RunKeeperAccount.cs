@@ -140,10 +140,10 @@ namespace Oddleif.RunKeeper.Client
         public int UserId { get; set; }
 
         [DataMember(Name = "fitness_activities")]
-        private string _fitnessActivitiesUri;
+        private string _fitnessActivitiesUri = null;
         
         [DataMember(Name = "profile")]
-        private string _profileUri;
+        private string _profileUri = null;
 
         public Uri FitnessActivitiesUri 
         {
@@ -187,6 +187,7 @@ namespace Oddleif.RunKeeper.Client
         /// <param name="clientSecret"></param>
         /// <param name="redirectUri"></param>
         /// <returns>A RunKeeperAccount object with a valid access token.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "3#")]
         public static RunKeeperAccount GetRunKeeperAccount(string clientAuthorizationCode, string clientId, string clientSecret, string redirectUri)
         {
             return RunKeeperAccountsRepository.GetRunKeeperAccount(clientAuthorizationCode, clientId, clientSecret, redirectUri);

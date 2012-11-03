@@ -99,7 +99,7 @@ namespace Oddleif.RunKeeper.Client.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(RunKeeperClientException))]
         public void ValidationHandlerErrorTest()
         {
             var document = new System.Xml.XmlDocument();

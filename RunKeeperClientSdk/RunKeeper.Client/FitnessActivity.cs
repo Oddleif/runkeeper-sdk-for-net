@@ -17,9 +17,12 @@ namespace Oddleif.RunKeeper.Client
     [DataContract]
     public class FitnessActivity : FitnessActivityFeedItem
     {
-        private IList<HeartRate> _heartRates = new List<HeartRate>();
-        private IList<Point> _activityPath = new List<Point>();
-        private IList<Distance> _distances = new List<Distance>();
+        [DataMember(Name = "heart_rate")]
+        internal readonly IList<HeartRate> _heartRates;
+        [DataMember(Name = "path")]
+        internal readonly IList<Point> _activityPath;
+        [DataMember(Name = "distance")]
+        internal readonly IList<Distance> _distances;
 
         /// <summary>
         /// The activity owner id.
@@ -53,49 +56,34 @@ namespace Oddleif.RunKeeper.Client
 
         /// <summary>
         /// List of heart rate measurements for the activity.
-        /// </summary>
-        [DataMember(Name="heart_rate")]
+        /// </summary>        
         public IList<HeartRate> HeartRates 
         {
             get
             {
-                return _heartRates;
-            }
-            set
-            {
-                _heartRates = value;
+                return _heartRates ?? new List<HeartRate>();
             }
         }
 
         /// <summary>
         /// The list of points that give the full path for the activity.
-        /// </summary>
-        [DataMember(Name="path")]
+        /// </summary>        
         public IList<Point> ActivityPath
         {
             get
             {
-                return _activityPath;
-            }
-            set
-            {
-                _activityPath = value;
+                return _activityPath ?? new List<Point>();
             }
         }
 
         /// <summary>
         /// Contains a list of distances for given timestamps.
         /// </summary>
-        [DataMember(Name = "distance")]
         public IList<Distance> Distances
         {
             get
             {
-                return _distances;
-            }
-            set
-            {
-                _distances = value;
+                return _distances ?? new List<Distance>();
             }
         }
 
@@ -107,7 +95,8 @@ namespace Oddleif.RunKeeper.Client
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Tcx")]
         public string SaveAsTcx(string parentFolder)
         {
-            Contract.Requires(Directory.Exists(parentFolder));           
+            if (!Directory.Exists(parentFolder))
+                throw new RunKeeperClientException("folder does not exist.");
 
             var filename = GetTcxFilename(parentFolder);
 
@@ -146,8 +135,8 @@ namespace Oddleif.RunKeeper.Client
         {
             var activity = AddChildeNode(activities, "Activity", null);
             SetSport(activity);
-            
-            AddChildeNode(activity, "Id", StartTime.ToUniversalTime().ToString("u").Replace(' ', 'T'));
+
+            AddChildeNode(activity, "Id", StartTime.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture).Replace(' ', 'T'));
 
             AddLap(activity);
         }
@@ -160,7 +149,7 @@ namespace Oddleif.RunKeeper.Client
 
             AddChildeNode(lap, "TotalTimeSeconds", this.DurationInSeconds.ToString(CultureInfo.InvariantCulture));
             AddChildeNode(lap, "DistanceMeters", this.Distance.ToString(CultureInfo.InvariantCulture));
-            AddChildeNode(lap, "Calories", this.TotalCalories.ToString());
+            AddChildeNode(lap, "Calories", this.TotalCalories.ToString(CultureInfo.InvariantCulture));
             AddChildeNode(lap, "Intensity", "Active");
             AddChildeNode(lap, "TriggerMethod", "Manual");
 
@@ -171,7 +160,7 @@ namespace Oddleif.RunKeeper.Client
         {
             var startTimeattribute = lap.Attributes.Append(lap.OwnerDocument.CreateAttribute("StartTime"));
 
-            startTimeattribute.Value = StartTime.ToUniversalTime().ToString("u").Replace(' ', 'T');
+            startTimeattribute.Value = StartTime.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture).Replace(' ', 'T');
         }
 
         private void AddTrack(XmlNode lap)
@@ -201,7 +190,7 @@ namespace Oddleif.RunKeeper.Client
             var point = ActivityPath[i];                      
 
             var trackPoint = AddChildeNode(track, "Trackpoint", null);
-            AddChildeNode(trackPoint, "Time", StartTime.AddSeconds(point.Timestamp).ToUniversalTime().ToString("u").Replace(' ', 'T'));
+            AddChildeNode(trackPoint, "Time", StartTime.AddSeconds(point.Timestamp).ToUniversalTime().ToString("u", CultureInfo.InvariantCulture).Replace(' ', 'T'));
             AddPosition(point, trackPoint);
             AddChildeNode(trackPoint, "AltitudeMeters", point.Altitude.ToString(CultureInfo.InvariantCulture));
 
@@ -263,7 +252,7 @@ namespace Oddleif.RunKeeper.Client
 
         private static void ValidationEventHandler(object sender, ValidationEventArgs e)
         {
-            throw new Exception(e.Severity.ToString() + ": " + e.Message, e.Exception);            
+            throw new RunKeeperClientException(e.Severity.ToString() + ": " + e.Message, e.Exception);            
         }
     }
 }

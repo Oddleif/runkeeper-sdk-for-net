@@ -329,6 +329,18 @@ namespace Oddleif.RunKeeper.Client.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(RunKeeperClientException))]
+        public void SaveActivityAsTcxFileToUnknownFolder()
+        {
+            var account = GetActiveRunKeeperAccount();
+
+            var activity = account.GetFitnessActivity(new Uri("/fitnessActivities/90834782", UriKind.Relative));
+
+            var directory = Path.Combine(Directory.GetCurrentDirectory(), Guid.NewGuid().ToString());
+            var fileLocation = activity.SaveAsTcx(directory);
+        }
+
+        [TestMethod]
         public void SaveFitnessActivityAsTcx2()
         {
             var account = GetActiveRunKeeperAccount();

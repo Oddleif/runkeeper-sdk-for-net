@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace Oddleif.RunKeeper.Client
 {
     [DataContract]
-    public struct Point
+    public class Point
     {
         [DataMember(Name="timestamp")]
         public double Timestamp { get; set; }

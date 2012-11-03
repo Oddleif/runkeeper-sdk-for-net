@@ -17,7 +17,17 @@ namespace Oddleif.RunKeeper.Client
     [DataContract]
     public class FitnessActivityFeed
     {
-        private IList<FitnessActivityFeedItem> _items = new List<FitnessActivityFeedItem>();
+        internal FitnessActivityFeed()
+        {            
+        }
+
+        internal FitnessActivityFeed(IList<FitnessActivityFeedItem> items)
+        {
+            _items = items;
+        }
+
+        [DataMember(Name = "items")]
+        internal IList<FitnessActivityFeedItem> _items;
 
         /// <summary>
         /// Endpoint address to the previous set of activities in the feed.
@@ -40,17 +50,12 @@ namespace Oddleif.RunKeeper.Client
         /// <summary>
         /// The set of fitness activities in the feed. If the feed contains
         /// multiple pages it will only contain the items for the current page.
-        /// </summary>
-        [DataMember(Name="items")]
+        /// </summary>        
         public IList<FitnessActivityFeedItem> Items 
         {
             get
             {
-                return _items;
-            }
-            set
-            {
-                _items = value;
+                return _items ?? new List<FitnessActivityFeedItem>();
             }
         }
 
