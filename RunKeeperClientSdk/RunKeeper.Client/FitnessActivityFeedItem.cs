@@ -102,11 +102,10 @@ namespace Oddleif.RunKeeper.Client
 
         public override bool Equals(object obj)
         {
-            if (obj is FitnessActivityFeedItem == false)
+            var compareTo = obj as FitnessActivityFeedItem;
+
+            if (compareTo == null)
                 return false;
-
-            var compareTo = (FitnessActivityFeedItem)obj;
-
             if (this.ActivityType != compareTo.ActivityType)
                 return false;
             if (this.ActivityUri != compareTo.ActivityUri)

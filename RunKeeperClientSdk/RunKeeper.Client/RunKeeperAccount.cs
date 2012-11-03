@@ -43,9 +43,8 @@ namespace Oddleif.RunKeeper.Client
         /// </remarks>
         public string Get(string endpoint, NameValueCollection headers)
         {
-            Contract.Requires(!String.IsNullOrEmpty(endpoint));
-            Contract.Requires(headers != null);
-            Contract.Requires(headers.Count > 0);
+            Contract.Requires(!String.IsNullOrEmpty(endpoint));            
+            Contract.Requires(headers != null && headers.Count > 0);
 
             SetAuthorizationHeader(headers);
 
@@ -91,11 +90,10 @@ namespace Oddleif.RunKeeper.Client
 
         public override bool Equals(object obj)
         {
-            if (obj is RunKeeperAccount == false)
+            var compareTo = obj as RunKeeperAccount;
+
+            if (compareTo == null)
                 return false;
-
-            var compareTo = (RunKeeperAccount)obj;
-
             if (AccessToken != compareTo.AccessToken)
                 return false;           
 
@@ -112,6 +110,7 @@ namespace Oddleif.RunKeeper.Client
         /// </summary>
         /// <param name="activityUri">The uri to the activity details. For example: /fitnessActivity/123456</param>
         /// <returns>The fitness activity details.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:Validate arguments of public methods", MessageId = "0")]
         public FitnessActivity GetFitnessActivity(Uri activityUri)
         {
             Contract.Requires(!String.IsNullOrEmpty(activityUri.ToString()));
@@ -127,6 +126,7 @@ namespace Oddleif.RunKeeper.Client
         /// Returns the profile associated with the current RunKeeper account.
         /// </summary>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public RunKeeperProfile GetProfile()
         {
             var headers = new NameValueCollection();

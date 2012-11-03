@@ -73,6 +73,7 @@ namespace Oddleif.RunKeeper.Client
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public FitnessActivityFeed GetNextPage()
         {
             Contract.Requires(HasNextPage);
@@ -80,6 +81,7 @@ namespace Oddleif.RunKeeper.Client
             return RunKeeperAccount.GetFitnessActivityFeed(NextPageUri);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
         public FitnessActivityFeed GetPreviousPage()
         {
             Contract.Requires(HasPreviousPage);
@@ -91,11 +93,10 @@ namespace Oddleif.RunKeeper.Client
 
         public override bool Equals(object obj)
         {
-            if (obj is FitnessActivityFeed == false)
+            var compareTo = obj as FitnessActivityFeed;
+
+            if (compareTo == null)
                 return false;
-
-            var compareTo = (FitnessActivityFeed)obj;
-
             if (NextPageUri != compareTo.NextPageUri)
                 return false;
             if (PreviousPageUri != compareTo.PreviousPageUri)
